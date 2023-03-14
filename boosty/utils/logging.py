@@ -1,0 +1,14 @@
+try:
+    from loguru import logger
+except ImportError:
+    import logging as logging
+    logging.basicConfig(
+        level=logging.DEBUG,
+        # format=(
+        #     '%(filename)s:\t'
+        #     '%(levelname)s:\t'
+        #     '%(funcName)s():\t'
+        #     '%(lineno)d:\t'
+        #     '%(message)s')
+    )
+    logger = logging.LoggerAdapter(logging.getLogger("boosty"))
