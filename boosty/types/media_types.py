@@ -6,18 +6,18 @@ from .base import BaseObject
 
 
 player_urls_size_names = Literal[
-    "tiny",      # 144
-    "lowest",    # 240
-    "low",       # 360
-    "medium",    # 480
-    "high",      # 720
-    "full_hd",   # 1080
-    "quad_hd",   # 1440
     "ultra_hd",  # 2160
+    "quad_hd",   # 1440
+    "full_hd",   # 1080
+    "high",      # 720
+    "medium",    # 480
+    "low",       # 360
+    "lowest",    # 144
+    "tiny",      # 144
 ]
 
 
-class PlayerUrls(BaseObject):
+class PlayerUrl(BaseObject):
     type: player_urls_size_names
     url: HttpUrl | Literal[""]
 
@@ -87,7 +87,7 @@ class Video(FileBase):
     """Video max width in pixels"""
     height: int
     """Video max height in pixels"""
-    playerUrls: list[PlayerUrls]
+    playerUrls: list[PlayerUrl]
     """List of video urls for different resolutions"""
     defaultPreview: HttpUrl
     """random frame from video as thumbnail"""

@@ -19,10 +19,10 @@ class API:
 
     def __init__(
             self,
-            session: ABCHTTPClient = None,
+            http_client: ABCHTTPClient = None,
             auth: Auth = None,
     ):
-        self.session = session or AiohttpClient()
+        self.http_client = http_client or AiohttpClient()
         self.auth = auth or Auth()
 
     async def request(self, method: str, params: dict, data: dict = None) -> dict:
@@ -32,7 +32,7 @@ class API:
             data = {}
         params = {key: value for key, value in params.items() if value is not None}
         data = {key: value for key, value in data.items() if value is not None}
-        response = await self.session.request_raw(
+        response = await self.http_client.request_raw(
             f"{self.API_URL}{method}",
             method="GET",
             params=params,

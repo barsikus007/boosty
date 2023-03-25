@@ -5,10 +5,10 @@ except ImportError:
     logging.basicConfig(
         level=logging.DEBUG,
         # format=(
-        #     '%(filename)s:\t'
-        #     '%(levelname)s:\t'
-        #     '%(funcName)s():\t'
-        #     '%(lineno)d:\t'
-        #     '%(message)s')
+        #     "%(filename)s:\t"
+        #     "%(levelname)s:\t"
+        #     "%(funcName)s():\t"
+        #     "%(lineno)d:\t"
+        #     "%(message)s")
     )
     logger = logging.LoggerAdapter(logging.getLogger("boosty"))
