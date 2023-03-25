@@ -5,10 +5,21 @@ from pydantic import HttpUrl, UUID4
 from .base import BaseObject
 
 
+player_urls_size_names = Literal[
+    "tiny",      # 144
+    "lowest",    # 240
+    "low",       # 360
+    "medium",    # 480
+    "high",      # 720
+    "full_hd",   # 1080
+    "quad_hd",   # 1440
+    "ultra_hd",  # 2160
+]
+
+
 class PlayerUrls(BaseObject):
-    # fullHD: str
-    type: str | None  # TODO
-    url: str | None  # TODO
+    type: player_urls_size_names
+    url: HttpUrl | Literal[""]
 
 
 class Text(BaseObject):
@@ -47,45 +58,53 @@ class FileBase(BaseObject):
 class File(FileBase):
     type: Literal["file"]
     complete: bool
-    size: int
     title: str
+    size: int
 
 
 class Audio(FileBase):
     type: Literal["audio_file"]
     complete: bool
-    size: int
     title: str
+    size: int
 
-    duration: int | None  # TODO
-    album: str | None
-    artist: str | None
-    track: str | None
+    # TODO may be None if complete false
+    duration: int
+    album: str
+    artist: str
+    track: str
 
 
 class Video(FileBase):
     type: Literal["ok_video"]
     complete: bool
-    vid: str
-
-    playerUrls: PlayerUrls | None
+    """Unknown, probably True if video completely processed (could be False if Post.isRecord)"""
     title: str
+    """Video title"""
     duration: int
-    preview: str | None  # TODO
-    failoverHost: str  # TODO
-
+    """Video duration in seconds"""
     width: int
+    """Video max width in pixels"""
     height: int
-    defaultPreview: HttpUrl | str | None
+    """Video max height in pixels"""
+    playerUrls: list[PlayerUrls]
+    """List of video urls for different resolutions"""
+    defaultPreview: HttpUrl
+    """random frame from video as thumbnail"""
+    preview: HttpUrl
+    """author thumbnail or defaultPreview"""
     previewId: UUID4 | None
+    """author thumbnail image id or None"""
+    vid: int
+    """ok.ru video id"""
+    failoverHost: str
+    """Unknown, probably interchangeable host for playerUrls"""
 
 
 class Image(FileBase):
     type: Literal["image"]
-    rendition: str
-    """'' or 'teaser_auto_background'"""
-
+    rendition: Literal["", "teaser_auto_background"]
     width: int | None
-    """If redention=='teaser_auto_background', then value is None"""
+    """Could be None if redention=='teaser_auto_background' and """
     height: int | None
-    """If redention=='teaser_auto_background', then value is None"""
+    """Could be None if redention=='teaser_auto_background'"""

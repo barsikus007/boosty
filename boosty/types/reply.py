@@ -5,7 +5,7 @@ from pydantic import UUID4
 
 from .base import BaseObject
 from .users import Commentator
-from .reactions import Reactions
+from .reactions import Reactions, Reacted
 
 
 class Reply(BaseObject):
@@ -18,6 +18,7 @@ class Reply(BaseObject):
     isDeleted: bool
     author: Commentator
     reactions: Reactions
+    reacted: Reacted | None
     replyCount: int
     post: dict[Literal["id"], UUID4]
     data: list[dict]
@@ -29,7 +30,7 @@ class Reply(BaseObject):
 
 class ReplyResponseExtra(BaseObject):
     isLast: bool
-    isFirst: bool | None
+    isFirst: bool
     # TODO offset: int | None
 
 

@@ -33,8 +33,19 @@ pip install boosty
 
 ## Usage
 
-*Optional:* fill `auth.json` file with authentication data
+*Optional:* specify `DEBUG` environment variable to enable strict schema validation
 
+*Optional:* fill `auth.json` file with authentication data:
+```json
+{
+  "access_token": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+  "device_id": "ffffffff-ffff-ffff-ffff-ffffffffffff",
+  "expires_at": 12345678900,
+  "refresh_token": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+}
+```
+
+Example:
 ```python
 from boosty.api import API
 
@@ -46,3 +57,6 @@ print(response.title)
 
 ## TODO for stable release
 - api schema
+  - add access for requests
+- minimal docs
+- tests

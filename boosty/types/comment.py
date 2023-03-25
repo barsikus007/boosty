@@ -6,12 +6,11 @@ from pydantic import UUID4, Field
 from .base import BaseObject
 from .reply import RepliesResponse
 from .users import Commentator
-from .reactions import Reactions
-from .media_types import Text, Smile, Image
-
+from .reactions import Reactions, Reacted
+from .media_types import Text, Smile, Link, Image
 
 CommentData = Annotated[
-    Text | Smile | Image,
+    Text | Smile | Image | Link,
     Field(discriminator="type")]
 
 
@@ -29,6 +28,7 @@ class Comment(BaseObject):
     isDeleted: bool
     author: Commentator
     reactions: Reactions
+    reacted: Reacted | None
     replyCount: int
     replies: RepliesResponse
     post: dict[Literal["id"], UUID4]
@@ -37,7 +37,7 @@ class Comment(BaseObject):
 
 class CommentsResponseExtra(BaseObject):
     isLast: bool
-    isFirst: bool | None
+    isFirst: bool
     # TODO offset: int | None
 
 

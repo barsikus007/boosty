@@ -2,7 +2,7 @@ from pydantic import conint, UUID4, BaseModel
 
 from boosty.api.auth import Auth
 from boosty.types import PostsResponse, Post, CommentsResponse
-from boosty.utils.client import AiohttpClient
+from boosty.utils.client import AiohttpClient, ABCHTTPClient
 
 
 class Error(BaseModel):
@@ -16,17 +16,13 @@ class BoostyError(ValueError):
 
 class API:
     API_URL = "https://api.boosty.to"
-    DEFAULT_USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36"
-    """https://techblog.willshouse.com/2012/01/03/most-common-user-agents/"""
 
-    # TODO UserAPI
-    # TODO AdminAPI
     def __init__(
             self,
-            session: AiohttpClient = None,
+            session: ABCHTTPClient = None,
             auth: Auth = None,
     ):
-        self.session = session or AiohttpClient(base_url=self.API_URL)
+        self.session = session or AiohttpClient()
         self.auth = auth or Auth()
 
     async def request(self, method: str, params: dict, data: dict = None) -> dict:
@@ -37,7 +33,7 @@ class API:
         params = {key: value for key, value in params.items() if value is not None}
         data = {key: value for key, value in data.items() if value is not None}
         response = await self.session.request_raw(
-            method,
+            f"{self.API_URL}{method}",
             method="GET",
             params=params,
             data=data,

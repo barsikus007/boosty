@@ -1,7 +1,9 @@
+import os
+
 from pydantic import BaseModel, Extra
 
 
-schema_strict = True  # TODO: make it configurable
+schema_strict = bool(os.getenv("DEBUG"))
 
 
 class BaseObject(BaseModel):

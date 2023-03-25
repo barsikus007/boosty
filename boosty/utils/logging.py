@@ -1,7 +1,7 @@
 try:
     from loguru import logger
 except ImportError:
-    import logging as logging
+    import logging
     logging.basicConfig(
         level=logging.DEBUG,
         # format=(

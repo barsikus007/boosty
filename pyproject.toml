@@ -9,7 +9,9 @@ readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
 keywords = ["boosty", "wrapper", "asyncio"]
-author = ["barsikus007"]
+authors = [
+  { name = "barsikus007" }
+]
 classifiers = [
   "Development Status :: 4 - Beta",
   "Programming Language :: Python",

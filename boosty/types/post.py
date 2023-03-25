@@ -68,9 +68,11 @@ class Post(BaseObject):
     isLiked: bool
     isPublished: bool
     price: int
+    """Price to open post"""
     signedQuery: str
     """Query for media fetching"""
     subscriptionLevel: SubscriptionLevel | None
+    """Subscription level for non-free posts"""
     tags: list[Tag]
     teaser: list[Teaser]
     title: str
@@ -79,24 +81,24 @@ class Post(BaseObject):
     reacted: React | None
     """Unknown"""
     isWaitingVideo: bool
-    """Unknown"""
+    """Unknown, probably an indicator, which shows if video is incomplete"""
     currencyPrices: Currency
     """Unknown"""
     isRecord: bool
-    """Unknown"""
+    """Is post a stream record"""
     donators: DonatorsResponse
     """TODO Unknown"""
     donations: int
     """Amount of donations"""
     int_id: int
-    """Unknown"""
+    """Unknown, probably post uuid to int"""
 
 
 class PostsResponseExtra(BaseObject):
     isLast: bool
-    """Unknown"""
+    """Is last page"""
     offset: str
-    """Unknown, example value is :code:`1654884900:923396`"""
+    """Value for pagination. Example: :code:`1654884900:923396`"""
 
 
 class PostsResponse(BaseObject):
