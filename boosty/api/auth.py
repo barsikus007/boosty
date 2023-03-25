@@ -1,7 +1,7 @@
 import asyncio
 from time import time
-from aiohttp import ClientSession
 
+from boosty.utils.client import ABCHTTPClient, AiohttpClient
 from boosty.utils.json import dict_to_file, file_to_dict
 from boosty.utils.logging import logger
 
@@ -57,11 +57,12 @@ class Auth:
     def get_auth_data(self):
         return self.access_token, self.refresh_token, self.expires_at
 
-    async def refresh_auth_data(self, session: ClientSession):
+    async def refresh_auth_data(self, session: ABCHTTPClient, api_url: str = None):
         self.load_auth_data()
 
-        response = await session.post(
-            "/oauth/token/",
+        response_data = await session.request_json(
+            f"{api_url}/oauth/token/",
+            method="POST",
             data={
                 "device_id": self.device_id,
                 "device_os": "web",
@@ -70,19 +71,18 @@ class Auth:
             },
             headers=self.headers)
 
-        response_data = await response.json()
         self.refresh_token = response_data["refresh_token"]
         self.access_token = response_data["access_token"]
         self.expires_at = int(time()) + response_data["expires_in"]
 
         self.save_auth_data()
+        self.load_auth_data()
 
 
 async def main():
-    async with ClientSession() as session:
-        auth = Auth()
-        await auth.refresh_auth_data(session)
-        access_token, refresh_token, expires = auth.get_auth_data()
+    auth = Auth()
+    await auth.refresh_auth_data(AiohttpClient())
+    access_token, refresh_token, expires = auth.get_auth_data()
     print(f"{access_token , refresh_token , expires = }")
 
 

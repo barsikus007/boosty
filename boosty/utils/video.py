@@ -83,11 +83,11 @@ def sort_urls_by_quality(
     return sorted([_ for _ in player_urls if _.url != ""], key=lambda x: -player_size_dict[x.type])
 
 
-async def select_max_url(
+async def select_max_size_url(
         api: API,
         player_urls: list[PlayerUrl],
         size_limit: int,
-) -> tuple[PlayerUrl, str] | None:
+) -> tuple[PlayerUrl, str, int] | None:
     """
     :param api: API instance
     :param player_urls: PlayerUrls to filter
@@ -103,4 +103,4 @@ async def select_max_url(
         if video_size <= size_limit:
             cd = resp.headers["content-disposition"]
             filename = cd[cd.find('"') + 1:cd.rfind('"')]
-            return player_url, filename
+            return player_url, filename, video_size

@@ -3,6 +3,7 @@ from pydantic import conint, UUID4, BaseModel
 from boosty.api.auth import Auth
 from boosty.types import PostsResponse, Post, CommentsResponse
 from boosty.utils.client import AiohttpClient, ABCHTTPClient
+from boosty.utils.logging import logger
 
 
 class Error(BaseModel):
@@ -48,6 +49,10 @@ class API:
         )
 
         if response.status // 100 == 4:
+            if response.status == 401:
+                logger.warning("AUTH EXPIRED, REFRESHING VIA REFRESH_TOKEN...")
+                await self.auth.refresh_auth_data(self.http_client, self.API_URL)
+                return await self.request(method, params, data)
             raise BoostyError(Error(**response_json))
 
         return response_json
@@ -56,7 +61,7 @@ class API:
             self,
             name: str,
 
-            limit: conint(ge=1, le=100) = None,  # limit is based on comments count
+            limit: conint(ge=1, le=100) = None,  # limit is based on data amount
             offset: str = None,  # "1654884900:923396"
             comments_limit: conint(ge=0) = None,
             reply_limit: int = None,  # idk ~1

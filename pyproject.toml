@@ -33,7 +33,8 @@ Source = "https://github.com/barsikus007/boosty"
 
 [project.optional-dependencies]
 dotenv = ["python-dotenv~=1.0.0"]
-all = ["boosty[dotenv]"]
+fast = ["orjson~=3.8.8", "aiohttp[speedups]~=3.8.4"]
+all = ["boosty[dotenv,fast]"]
 
 
 [tool.hatch.version]
