@@ -16,6 +16,7 @@
 
 - [Installation](#installation)
 - [License](#license)
+- [Usage](#usage)
 
 ## Installation
 
@@ -27,7 +28,7 @@ pip install boosty
 
 `boosty` is distributed under the terms of the [MIT](https://spdx.org/licenses/MIT.html) license.
 
-## **!WARNING! this version of library is very unstable**
+### **!WARNING! this version of library is very unstable**
 
 **If you use it, contact maintainer to help make it stable**
 
@@ -55,8 +56,8 @@ print(response.title)
 # 'Добро пожаловать на борт!'
 ```
 
-## TODO for stable release
+### TODO for stable release
 - api schema
-  - add access for requests
+  - add access levels logic for requests
 - minimal docs
 - tests

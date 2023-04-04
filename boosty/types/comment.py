@@ -37,8 +37,7 @@ class Comment(BaseObject):
 
 class CommentsResponseExtra(BaseObject):
     isLast: bool
-    isFirst: bool
-    # TODO offset: int | None
+    isFirst: bool | None
 
 
 class CommentsResponse(BaseObject):

@@ -71,9 +71,13 @@ class Auth:
             },
             headers=self.headers)
 
-        self.refresh_token = response_data["refresh_token"]
-        self.access_token = response_data["access_token"]
-        self.expires_at = int(time()) + response_data["expires_in"]
+        try:
+            self.refresh_token = response_data["refresh_token"]
+            self.access_token = response_data["access_token"]
+            self.expires_at = int(time()) + response_data["expires_in"]
+        except KeyError:
+            logger.error(f"Failed to refresh auth data: {response_data}")
+            raise
 
         self.save_auth_data()
         self.load_auth_data()

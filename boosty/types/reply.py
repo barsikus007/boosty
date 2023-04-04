@@ -31,7 +31,6 @@ class Reply(BaseObject):
 class ReplyResponseExtra(BaseObject):
     isLast: bool
     isFirst: bool
-    # TODO offset: int | None
 
 
 class RepliesResponse(BaseObject):

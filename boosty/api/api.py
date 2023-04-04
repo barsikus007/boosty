@@ -60,7 +60,7 @@ class API:
     async def get_posts(
             self,
             name: str,
-
+            *,
             limit: conint(ge=1, le=100) = None,  # limit is based on data amount
             offset: str = None,  # "1654884900:923396"
             comments_limit: conint(ge=0) = None,
@@ -79,7 +79,7 @@ class API:
             self,
             name: str,
             post_id: UUID4 | str,
-
+            *,
             comments_limit: conint(ge=0) = None,
             reply_limit: int = None,  # idk ~1
     ) -> Post:
@@ -94,7 +94,7 @@ class API:
             self,
             name: str,
             post_id: UUID4 | str,
-
+            *,
             offset: str = None,  # "1654884900:923396"
             limit: conint(ge=0) = None,  # ~20
             reply_limit: int = None,  # idk ~1

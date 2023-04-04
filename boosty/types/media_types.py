@@ -68,7 +68,7 @@ class Audio(FileBase):
     title: str
     size: int
 
-    # TODO may be None if complete false
+    """may be None if complete == False"""
     duration: int
     album: str
     artist: str

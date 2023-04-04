@@ -58,7 +58,7 @@ class Post(BaseObject):
     publishTime: datetime
     """Publication timestamp"""
     data: list[Content]
-    """TODO List of content, attached to post (text included)"""
+    """List of contents, attached to post (text included)"""
     count: Count
     """Count of likes, comments, reactions"""
     comments: CommentsResponse
@@ -87,7 +87,7 @@ class Post(BaseObject):
     isRecord: bool
     """Is post a stream record"""
     donators: DonatorsResponse
-    """TODO Unknown"""
+    """List of donators of post"""
     donations: int
     """Amount of donations"""
     int_id: int

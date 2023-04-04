@@ -4,6 +4,7 @@ from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING, Any, Optional, Type, TypeVar
 
 from aiohttp import ClientSession
+from multidict import CIMultiDictProxy
 
 from boosty.utils.json import json
 
@@ -125,6 +126,20 @@ class AiohttpClient(ABCHTTPClient):
     ) -> bytes:
         response = await self.request_raw(url, method, data, **kwargs)
         return response._body
+
+    async def request_headers(
+        self,
+        url: str,
+        data: Optional[dict] = None,
+        **kwargs,
+    ) -> CIMultiDictProxy[str]:
+        if not self.session:
+            self.session = ClientSession(
+                json_serialize=self.json_processing_module.dumps,
+                **self._session_params,
+            )
+        async with self.session.head(url=url, data=data, **kwargs) as response:
+            return response.headers
 
     async def close(self) -> None:
         if self.session and not self.session.closed:

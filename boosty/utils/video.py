@@ -5,30 +5,10 @@ from pydantic import HttpUrl
 
 from boosty.api import API
 from boosty.types import BaseObject
-from boosty.types.media_types import Video, PlayerUrl
+from boosty.types.media_types import Video, PlayerUrl, player_urls_size_names
 from boosty.utils.json import json
 
 
-player_size_dict = {
-    "ultra_hd": 7,
-    "quad_hd": 6,
-    "full_hd": 5,
-    "high": 3,
-    "medium": 2,
-    "low": 1,
-    "lowest": 0,
-    "tiny": -1,  # 4
-}
-size_dict = {
-    "ultra": 7,
-    "quad": 6,
-    "full": 5,
-    "hd": 3,
-    "sd": 2,
-    "low": 1,
-    "lowest": 0,
-    "mobile": -1,  # 4
-}
 size_names = Literal[
     "ultra",   # 2160
     "quad",    # 1440
@@ -39,6 +19,27 @@ size_names = Literal[
     "lowest",  # 144
     "mobile",  # 144
 ]
+size_dict = {
+    "ultra": 7,
+    "quad": 6,
+    "full": 5,
+    "hd": 3,
+    "sd": 2,
+    "low": 1,
+    "lowest": 0,
+    "mobile": -1,  # 4
+}
+player_size_dict = {
+    "ultra_hd": 7,
+    "quad_hd": 6,
+    "full_hd": 5,
+    "high": 3,
+    "medium": 2,
+    "low": 1,
+    "lowest": 0,
+    "tiny": -1,  # 4
+}
+player_size_by_number: dict[int, player_urls_size_names] = {v: k for k, v in player_size_dict.items()}
 
 
 class VideoSize(BaseObject):
@@ -52,12 +53,12 @@ async def get_video_sizes(
         api: API,
         name: str,
         content: Video,
-) -> list[VideoSize]:
+) -> list[PlayerUrl]:
     """
     :param api: API instance
     :param name: str for native referer header
     :param content: Video to get links from
-    :return: list of VideoSize, sorted by quality descending
+    :return: list of PlayerUrl, sorted by quality descending
     """
     player_html = await api.http_client.request_text(
         content.url, headers={"User-Agent": api.auth.user_agent, "referer": f"https://boosty.to/{name}"})
@@ -70,15 +71,18 @@ async def get_video_sizes(
 
     sizes_list = json.loads(video_data["flashvars"]["metadata"])["videos"]
     sizes_list = [VideoSize(**size) for size in sizes_list]
-    return sorted(sizes_list, key=lambda x: -size_dict[x.name])
+    sizes_list = [
+        PlayerUrl(url=size.url, type=player_size_by_number[size_dict[size.name]])
+        for size in sizes_list]
+    return sizes_list
 
 
 def sort_urls_by_quality(
         player_urls: list[PlayerUrl],
 ) -> list[PlayerUrl]:
     """
-    :param player_urls: list of VideoSize, sorted randomly
-    :return: list of VideoSize, sorted by quality descending
+    :param player_urls: list of PlayerUrl
+    :return: list of PlayerUrl, sorted by quality descending
     """
     return sorted([_ for _ in player_urls if _.url != ""], key=lambda x: -player_size_dict[x.type])
 
@@ -90,17 +94,16 @@ async def select_max_size_url(
 ) -> tuple[PlayerUrl, str, int] | None:
     """
     :param api: API instance
-    :param player_urls: PlayerUrls to filter
+    :param player_urls: list of PlayerUrl to filter
     :param size_limit: maximum size of video in bytes
     :return: best PlayerUrl possible
     """
     for player_url in sort_urls_by_quality(player_urls):
-        # api.http_client.session.cookie_jar.clear()  # TODO enable if don't work
-        resp = await api.http_client.session.head(player_url.url, headers=api.auth.headers)
-        video_size = int(resp.headers["content-length"])
+        headers = await api.http_client.request_headers(player_url.url, headers=api.auth.headers)
+        video_size = int(headers["content-length"])
         if video_size < 228:
             raise ValueError("Video is too small, probably error code")
         if video_size <= size_limit:
-            cd = resp.headers["content-disposition"]
+            cd = headers["content-disposition"]
             filename = cd[cd.find('"') + 1:cd.rfind('"')]
-            return player_url, filename, video_size
+            return PlayerUrl(url=player_url.url, type=player_url.type), filename, video_size
