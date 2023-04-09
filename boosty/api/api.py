@@ -20,11 +20,11 @@ class API:
 
     def __init__(
             self,
-            http_client: ABCHTTPClient = None,
-            auth: Auth = None,
+            http_client: ABCHTTPClient = AiohttpClient(),
+            auth: Auth = Auth(),
     ):
-        self.http_client = http_client or AiohttpClient()
-        self.auth = auth or Auth()
+        self.http_client = http_client
+        self.auth = auth
 
     async def request(self, method: str, params: dict, data: dict = None) -> dict:
         if not params:

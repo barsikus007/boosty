@@ -96,7 +96,7 @@ class Video(FileBase):
     previewId: UUID4 | None
     """author thumbnail image id or None"""
     vid: int
-    """ok.ru video id"""
+    """Unknown, probably ok.ru video id"""
     failoverHost: str
     """Unknown, probably interchangeable host for playerUrls"""
 

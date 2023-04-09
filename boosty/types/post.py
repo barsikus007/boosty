@@ -57,26 +57,33 @@ class Post(BaseObject):
     """Last update timestamp"""
     publishTime: datetime
     """Publication timestamp"""
+    isPublished: bool
+    """Is post published to users"""
+    user: BlogUser
+    """Blogger user object"""
+
+    title: str
+    """Post title"""
     data: list[Content]
     """List of contents, attached to post (text included)"""
+    tags: list[Tag]
+
+    hasAccess: bool
+    """Is post available for you"""
+    teaser: list[Teaser]
+    """Post teaser for users which haven't access to post"""
+
     count: Count
     """Count of likes, comments, reactions"""
     comments: CommentsResponse
-    hasAccess: bool
-    """Is post is available for users"""
     isCommentsDenied: bool
     isLiked: bool
-    isPublished: bool
     price: int
     """Price to open post"""
     signedQuery: str
     """Query for media fetching"""
     subscriptionLevel: SubscriptionLevel | None
     """Subscription level for non-free posts"""
-    tags: list[Tag]
-    teaser: list[Teaser]
-    title: str
-    user: BlogUser
 
     reacted: React | None
     """Unknown"""
@@ -87,11 +94,11 @@ class Post(BaseObject):
     isRecord: bool
     """Is post a stream record"""
     donators: DonatorsResponse
-    """List of donators of post"""
+    """List of sponsors of the post"""
     donations: int
     """Amount of donations"""
     int_id: int
-    """Unknown, probably post uuid to int"""
+    """Unknown, probably post.id to int"""
 
 
 class PostsResponseExtra(BaseObject):

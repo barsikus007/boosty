@@ -6,18 +6,19 @@ from boosty.utils.json import dict_to_file, file_to_dict
 from boosty.utils.logging import logger
 
 
-class Auth:
+class Auth:  # TODO vk auth
     access_token, refresh_token, expires_at, device_id, headers = None, None, None, None, None
-    DEFAULT_USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36"
+    DEFAULT_USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36"  # noqa
     """https://techblog.willshouse.com/2012/01/03/most-common-user-agents/"""
 
     def __init__(
             self,
             auth_file: str = "auth.json",
-            user_agent: str = None,
+            user_agent: str = DEFAULT_USER_AGENT,
     ):
         self.auth_file = auth_file
-        self.user_agent = user_agent or self.DEFAULT_USER_AGENT
+        self.user_agent = user_agent
+
         self.load_auth_data()
 
     def load_auth_data(self):
@@ -44,7 +45,7 @@ class Auth:
         dict_to_file(auth_data, self.auth_file)
 
     def save_auth_data_dotenv(self, dotenv_file=None):
-        import dotenv
+        import dotenv  # noqa
 
         if not dotenv_file:
             dotenv_file = dotenv.find_dotenv()
@@ -53,12 +54,14 @@ class Auth:
         dotenv.load_dotenv(dotenv_file)
         dotenv.set_key(dotenv_file, "ACCESS_TOKEN", self.access_token, "auto")
         dotenv.set_key(dotenv_file, "REFRESH_TOKEN", self.refresh_token, "auto")
+        dotenv.set_key(dotenv_file, "EXPIRES_AT", self.expires_at, "auto")
+        dotenv.set_key(dotenv_file, "DEVICE_ID", self.device_id, "auto")
 
-    def get_auth_data(self):
-        return self.access_token, self.refresh_token, self.expires_at
-
-    async def refresh_auth_data(self, session: ABCHTTPClient, api_url: str = None):
+    async def refresh_auth_data(self, session: ABCHTTPClient, api_url: str = ""):
         self.load_auth_data()
+        if not self.refresh_token:
+            logger.error("No refresh token was found to refresh auth data")
+            raise ValueError("No refresh token was found to refresh auth data")
 
         response_data = await session.request_json(
             f"{api_url}/oauth/token/",
@@ -86,8 +89,7 @@ class Auth:
 async def main():
     auth = Auth()
     await auth.refresh_auth_data(AiohttpClient())
-    access_token, refresh_token, expires = auth.get_auth_data()
-    print(f"{access_token , refresh_token , expires = }")
+    logger.info(f"{auth.access_token, auth.refresh_token, auth.expires_at = }")
 
 
 if __name__ == "__main__":

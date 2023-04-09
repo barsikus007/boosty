@@ -23,6 +23,7 @@ class DonatorUser(BaseUser):
     displayName: str
     vkplayProfileLink: HttpUrl | None
     email: EmailStr
+    isVerifiedStreamer: bool
 
 
 class Commentator(BaseUser):

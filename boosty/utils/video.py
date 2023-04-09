@@ -39,7 +39,7 @@ player_size_dict = {
     "lowest": 0,
     "tiny": -1,  # 4
 }
-player_size_by_number: dict[int, player_urls_size_names] = {v: k for k, v in player_size_dict.items()}
+player_size_by_number: dict[int, player_urls_size_names] = {v: k for k, v in player_size_dict.items()}  # type: ignore
 
 
 class VideoSize(BaseObject):

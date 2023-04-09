@@ -14,10 +14,6 @@ CommentData = Annotated[
     Field(discriminator="type")]
 
 
-class Smile(BaseObject):
-    type: Literal["smile"]
-
-
 class Comment(BaseObject):
     id: UUID4
     intId: int

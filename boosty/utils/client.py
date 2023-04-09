@@ -1,7 +1,7 @@
 # stolen from vkbottle with love <3
 
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING, Any, Optional, Type, TypeVar
+from typing import TYPE_CHECKING, Any, Optional, Type, TypeVar, Mapping
 
 from aiohttp import ClientSession
 from multidict import CIMultiDictProxy
@@ -46,6 +46,12 @@ class ABCHTTPClient(ABC):
     async def request_content(
         self, url: str, method: str = "GET", data: Optional[dict] = None, **kwargs
     ) -> bytes:
+        pass
+
+    @abstractmethod
+    async def request_headers(
+        self, url: str, data: Optional[dict] = None, **kwargs
+    ) -> Mapping[str, str]:
         pass
 
     @abstractmethod
@@ -162,5 +168,5 @@ class SingleAiohttpClient(AiohttpClient):
             cls.__instance__ = super().__new__(cls, *args, **kwargs)
         return cls.__instance__
 
-    def __aexit__(self, exc_type, exc_val, exc_tb):
+    async def __aexit__(self, exc_type, exc_val, exc_tb):
         pass  # no need to close session in this case

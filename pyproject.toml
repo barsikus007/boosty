@@ -32,9 +32,10 @@ Issues = "https://github.com/barsikus007/boosty/issues"
 Source = "https://github.com/barsikus007/boosty"
 
 [project.optional-dependencies]
+logging = ["loguru~=0.6.0"]
 dotenv = ["python-dotenv~=1.0.0"]
 fast = ["orjson~=3.8.8", "aiohttp[speedups]~=3.8.4"]
-all = ["boosty[dotenv,fast]"]
+all = ["boosty[logging,dotenv,fast]"]
 
 
 [tool.hatch.version]
