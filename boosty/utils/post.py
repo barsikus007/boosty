@@ -3,13 +3,13 @@ from struct import unpack
 from typing import TYPE_CHECKING
 
 from boosty.types.base import schema_strict
-from boosty.types.comment import Comment
 from boosty.types.media_types import Text, Link
 from boosty.utils.json import json
 from pydantic import BaseModel, HttpUrl
 
 if TYPE_CHECKING:
     from boosty.types import Post, Content
+    from boosty.types.comment import Comment
 
 
 # pyrogram/parser/utils.py:19@626a1bd

@@ -55,7 +55,7 @@ response = await api.get_post("boosty", post_id="c9fb8a19-c45e-4602-9942-087c3af
 print(response.title)
 # 'Добро пожаловать на борт!'
 ```
-More examples in [examples/](examples/) folder
+More examples in [examples/](https://github.com/barsikus007/boosty/blob/master/examples/) folder
 
 ### TODO for stable release
 - api schema
