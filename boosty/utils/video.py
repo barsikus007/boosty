@@ -37,7 +37,14 @@ player_size_dict = {
     "medium": 2,
     "low": 1,
     "lowest": 0,
-    "tiny": -1,  # 4
+    "dash": -1,
+    "dash_uni": -2,
+    "hls": -3,  # 4
+    "tiny": -4,
+    "live_playback_dash": -6,
+    "live_playback_hls": -7,
+    "live_dash": -8,
+    "live_hls": -9,
 }
 player_size_by_number: dict[int, player_urls_size_names] = {v: k for k, v in player_size_dict.items()}  # type: ignore
 

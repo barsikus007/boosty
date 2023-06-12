@@ -7,11 +7,12 @@ from boosty.utils.logging import logger
 
 
 class Error(BaseModel):
+    status_code: int
     error: str
-    error_description: str
+    error_description: str | None
 
 
-class BoostyError(ValueError):
+class BoostyError(Exception):
     pass
 
 
@@ -41,19 +42,25 @@ class API:
             headers=self.auth.headers,
         )
 
-        if response.status // 100 == 5:
-            raise BoostyError(Error(error_description=str(response.status), error="Server error"))
+        if response.status == 401:
+            logger.warning("AUTH EXPIRED, REFRESHING VIA REFRESH_TOKEN...")
+            await self.auth.refresh_auth_data(self.http_client, self.API_URL)
+            return await self.request(method, params, data)
 
-        response_json = await response.json(
-            encoding="utf-8", content_type=None
-        )
+        try:
+            response_json = await response.json(
+                encoding="utf-8", content_type=None
+            )
+        except ValueError:
+            response_json = {}
 
-        if response.status // 100 == 4:
-            if response.status == 401:
-                logger.warning("AUTH EXPIRED, REFRESHING VIA REFRESH_TOKEN...")
-                await self.auth.refresh_auth_data(self.http_client, self.API_URL)
-                return await self.request(method, params, data)
-            raise BoostyError(Error(**response_json))
+        if response.status // 100 != 2:
+            raise BoostyError(
+                Error(
+                    status_code=response.status,
+                    **response_json or {"error": "Unknown error"}
+                )
+            )
 
         return response_json
 
@@ -61,7 +68,7 @@ class API:
             self,
             name: str,
             *,
-            limit: conint(ge=1, le=100) = None,  # limit is based on data amount
+            limit: conint(ge=1) = None,  # limit is based on data amount ~300
             offset: str = None,  # "1654884900:923396"
             comments_limit: conint(ge=0) = None,
             reply_limit: int = None,  # idk ~1

@@ -55,9 +55,19 @@ response = await api.get_post("boosty", post_id="c9fb8a19-c45e-4602-9942-087c3af
 print(response.title)
 # 'Добро пожаловать на борт!'
 ```
+More examples in [examples/](examples/) folder
 
 ### TODO for stable release
 - api schema
   - add access levels logic for requests
 - minimal docs
-- tests
+- useful properties for models
+- merge reply comment with comment model 
+- add examples
+  - render text
+  - get video url
+  - get comment url
+- add tests
+  - boosty profile
+  - comments
+  - replies

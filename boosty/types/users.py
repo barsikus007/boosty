@@ -11,19 +11,23 @@ class BaseUser(BaseObject):
     nick: str
     hasAvatar: bool
     avatarUrl: HttpUrl | Literal[""]
+    isVerifiedStreamer: bool | None
+    """None for BlogUser"""
 
 
 class BlogUser(BaseUser):
     blogUrl: str
 
 
-class DonatorUser(BaseUser):
+class Voter(BaseUser):
     nickColor: conint(ge=0, le=15)
     """color id from 0 to 15"""
     displayName: str
     vkplayProfileLink: HttpUrl | None
-    email: EmailStr
-    isVerifiedStreamer: bool
+
+
+class DonatorUser(Voter):
+    email: EmailStr | Literal[""]
 
 
 class Commentator(BaseUser):

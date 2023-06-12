@@ -14,6 +14,14 @@ player_urls_size_names = Literal[
     "low",       # 360
     "lowest",    # 144
     "tiny",      # 144
+    "dash",                # TODO idk
+    "dash_uni",            # TODO idk
+    "hls",                 # TODO idk
+    "tiny",                # TODO idk
+    "live_hls",            # TODO idk
+    "live_dash",           # TODO idk
+    "live_playback_hls",   # TODO idk
+    "live_playback_dash",  # TODO idk
 ]
 
 
@@ -25,7 +33,9 @@ class PlayerUrl(BaseObject):
 class Text(BaseObject):
     type: Literal["text"]
     content: str
+    """JSON string with list of text with entities or '' if modificator is 'BLOCK_END'"""
     modificator: str
+    """One of ['', 'BLOCK_END']"""
 
 
 class Smile(BaseObject):
@@ -77,6 +87,8 @@ class Audio(FileBase):
 
 class Video(FileBase):
     type: Literal["ok_video"]
+    url: HttpUrl | Literal[""]
+    """Could be '' due to boosty moment"""
     complete: bool
     """Unknown, probably True if video completely processed (could be False if Post.isRecord)"""
     title: str
@@ -89,9 +101,9 @@ class Video(FileBase):
     """Video max height in pixels"""
     playerUrls: list[PlayerUrl]
     """List of video urls for different resolutions"""
-    defaultPreview: HttpUrl
+    defaultPreview: HttpUrl | Literal[""]  # TODO SOMETIMES SERVER SENDS EMPTY STRING
     """random frame from video as thumbnail"""
-    preview: HttpUrl
+    preview: HttpUrl | Literal[""]  # TODO SOMETIMES SERVER SENDS EMPTY STRING
     """author thumbnail or defaultPreview"""
     previewId: UUID4 | None
     """author thumbnail image id or None"""

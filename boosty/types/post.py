@@ -1,14 +1,16 @@
 from datetime import datetime
 
-from pydantic import UUID4
+from pydantic import UUID4, HttpUrl
 
 from .base import BaseObject
 from .comment import CommentsResponse
 from .content import Content
 from .donator import DonatorsResponse
+from .poll import Poll
 from .reactions import Reactions
 from .teaser import Teaser
 from .users import BlogUser
+from ..utils.post import render_text, Entity
 
 
 class Currency(BaseObject):
@@ -85,6 +87,7 @@ class Post(BaseObject):
     subscriptionLevel: SubscriptionLevel | None
     """Subscription level for non-free posts"""
 
+    poll: Poll | None
     reacted: React | None
     """Unknown"""
     isWaitingVideo: bool
@@ -99,6 +102,14 @@ class Post(BaseObject):
     """Amount of donations"""
     int_id: int
     """Unknown, probably post.id to int"""
+
+    @property
+    def url(self) -> HttpUrl:
+        return HttpUrl(f"https://boosty.to/{self.user.blogUrl}/posts/{self.id}", scheme="https")
+
+    @property
+    def text(self) -> tuple[str, list[Entity]]:
+        return render_text(self.data)
 
 
 class PostsResponseExtra(BaseObject):

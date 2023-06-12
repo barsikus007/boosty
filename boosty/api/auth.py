@@ -1,7 +1,6 @@
-import asyncio
 from time import time
 
-from boosty.utils.client import ABCHTTPClient, AiohttpClient
+from boosty.utils.client import ABCHTTPClient
 from boosty.utils.json import dict_to_file, file_to_dict
 from boosty.utils.logging import logger
 
@@ -60,7 +59,6 @@ class Auth:  # TODO vk auth
     async def refresh_auth_data(self, session: ABCHTTPClient, api_url: str = ""):
         self.load_auth_data()
         if not self.refresh_token:
-            logger.error("No refresh token was found to refresh auth data")
             raise ValueError("No refresh token was found to refresh auth data")
 
         response_data = await session.request_json(
@@ -78,19 +76,8 @@ class Auth:  # TODO vk auth
             self.refresh_token = response_data["refresh_token"]
             self.access_token = response_data["access_token"]
             self.expires_at = int(time()) + response_data["expires_in"]
-        except KeyError:
-            logger.error(f"Failed to refresh auth data: {response_data}")
-            raise
+        except KeyError as e:
+            raise ValueError(f"Failed to refresh auth data: {response_data}") from e
 
         self.save_auth_data()
         self.load_auth_data()
-
-
-async def main():
-    auth = Auth()
-    await auth.refresh_auth_data(AiohttpClient())
-    logger.info(f"{auth.access_token, auth.refresh_token, auth.expires_at = }")
-
-
-if __name__ == "__main__":
-    asyncio.run(main())

@@ -11,4 +11,4 @@ except ImportError:
         #     "%(lineno)d:\t"
         #     "%(message)s")
     )
-    logger = logging.LoggerAdapter(logging.getLogger("boosty"))
+    logger = logging.LoggerAdapter(logging.getLogger(__name__.split(".")[0]))

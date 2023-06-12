@@ -8,8 +8,10 @@ from .reply import RepliesResponse
 from .users import Commentator
 from .reactions import Reactions, Reacted
 from .media_types import Text, Smile, Link, Image
+from ..utils.post import render_text, Entity
 
-CommentData = Annotated[
+
+CommentContent = Annotated[
     Text | Smile | Image | Link,
     Field(discriminator="type")]
 
@@ -28,7 +30,16 @@ class Comment(BaseObject):
     replyCount: int
     replies: RepliesResponse
     post: dict[Literal["id"], UUID4]
-    data: list[CommentData]
+    data: list[CommentContent]
+
+    @property
+    def query(self) -> str:
+        return f"?comment={self.intId}"
+
+    @property
+    def text(self) -> tuple[str, list[Entity]]:
+        return render_text(self.data)
+
 
 
 class CommentsResponseExtra(BaseObject):

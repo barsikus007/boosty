@@ -1,11 +1,16 @@
 import re
 from struct import unpack
+from typing import TYPE_CHECKING
 
-from boosty.types import Post, Content
 from boosty.types.base import schema_strict
+from boosty.types.comment import Comment
 from boosty.types.media_types import Text, Link
 from boosty.utils.json import json
 from pydantic import BaseModel, HttpUrl
+
+if TYPE_CHECKING:
+    from boosty.types import Post, Content
+
 
 # pyrogram/parser/utils.py:19@626a1bd
 # SMP = Supplementary Multilingual Plane: https://en.wikipedia.org/wiki/Plane_(Unicode)#Overview
@@ -22,11 +27,6 @@ def add_surrogates(text):
 # pyrogram/parser/utils.py:41@626a1bd
 
 
-def get_post_url(post: Post) -> HttpUrl:
-    """Get post url"""
-    return HttpUrl(f"https://boosty.to/{post.user.blogUrl}/posts/{post.id}", scheme="https")
-
-
 class Entity(BaseModel):
     """Telegram-like entity"""
     type: str
@@ -36,7 +36,8 @@ class Entity(BaseModel):
 
 
 def render_text(
-        post_data: list[Content], *,
+        post_data: list["Content"],
+        *,
         header="", placeholder="\n\n",
         fix_long_newlines=True, fix_end_newlines=True,
 ) -> tuple[str, list[Entity]]:
@@ -96,6 +97,8 @@ def render_text(
                         entity_type = "italic"
                     elif format_type == 4:
                         entity_type = "underline"
+                    elif format_type is None:
+                        continue  # TODO unknown format in comments [None, 64, 0]
                     else:
                         if schema_strict:
                             raise ValueError(
@@ -117,3 +120,7 @@ def render_text(
     while fix_end_newlines and text.endswith("\n"):
         text = text[:-1]
     return text, entities
+
+
+def get_comment_url(post: "Post", comment: "Comment") -> HttpUrl:
+    return HttpUrl(f"{post.url.query}{comment.query}", scheme="https")
