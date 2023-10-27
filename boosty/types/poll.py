@@ -31,5 +31,5 @@ class Poll(BaseObject):
     options: list[Option]
     defaultLang: str
     hasOther: bool
-    answer: list[int] | None
-    other: Literal[""] | None
+    answer: list[int] | None = None
+    other: Literal[""] | None = None

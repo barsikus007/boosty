@@ -29,7 +29,7 @@ class SubscriptionLevel(BaseObject):
     createdAt: datetime
     """Creation timestamp"""
     price: int
-    changePrice: int | None
+    changePrice: int | None = None
     data: list[Teaser]
     """Could be Conent type"""
     deleted: bool
@@ -39,6 +39,8 @@ class SubscriptionLevel(BaseObject):
     """post.user.id"""
 
     currencyPrices: Currency
+
+    promos: list  # TODO
 
 
 class React(BaseObject):
@@ -84,11 +86,11 @@ class Post(BaseObject):
     """Price to open post"""
     signedQuery: str
     """Query for media fetching"""
-    subscriptionLevel: SubscriptionLevel | None
+    subscriptionLevel: SubscriptionLevel | None = None
     """Subscription level for non-free posts"""
 
-    poll: Poll | None
-    reacted: React | None
+    poll: Poll | None = None
+    reacted: React | None = None
     """Unknown"""
     isWaitingVideo: bool
     """Unknown, probably an indicator, which shows if video is incomplete"""
@@ -98,10 +100,13 @@ class Post(BaseObject):
     """Is post a stream record"""
     donators: DonatorsResponse
     """List of sponsors of the post"""
-    donations: int
+    donations: float | dict  # TODO
     """Amount of donations"""
     int_id: int
     """Unknown, probably post.id to int"""
+
+    isDeleted: bool
+    """TODO"""
 
     @property
     def url(self) -> HttpUrl:

@@ -20,13 +20,13 @@ class Comment(BaseObject):
     id: UUID4
     intId: int
     createdAt: datetime
-    updatedAt: datetime | None
+    updatedAt: datetime | None = None
     isBlocked: bool
     isUpdated: bool
     isDeleted: bool
     author: Commentator
     reactions: Reactions
-    reacted: Reacted | None
+    reacted: Reacted | None = None
     replyCount: int
     replies: RepliesResponse
     post: dict[Literal["id"], UUID4]
@@ -44,7 +44,7 @@ class Comment(BaseObject):
 
 class CommentsResponseExtra(BaseObject):
     isLast: bool
-    isFirst: bool | None
+    isFirst: bool | None = None
 
 
 class CommentsResponse(BaseObject):

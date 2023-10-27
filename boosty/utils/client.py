@@ -1,5 +1,5 @@
 # stolen from vkbottle with love <3
-
+import asyncio
 from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING, Any, Optional, Type, TypeVar, Mapping
 
@@ -55,6 +55,10 @@ class ABCHTTPClient(ABC):
         pass
 
     @abstractmethod
+    async def open(self) -> None:
+        pass
+
+    @abstractmethod
     async def close(self) -> None:
         pass
 
@@ -92,14 +96,16 @@ class AiohttpClient(ABCHTTPClient):
         data: Optional[dict] = None,
         **kwargs,
     ) -> "ClientResponse":
-        if not self.session:
-            self.session = ClientSession(
-                json_serialize=self.json_processing_module.dumps,
-                **self._session_params,
-            )
-        async with self.session.request(url=url, method=method, data=data, **kwargs) as response:
-            await response.read()
-            return response
+        await self.open()
+        try:
+            async with self.session.request(url=url, method=method, data=data, **kwargs) as response:
+                await response.read()
+                return response
+        except asyncio.TimeoutError as e:
+            await self.close()
+            self.session = None
+            await self.open()
+            raise asyncio.TimeoutError from e
 
     async def request_json(
         self,
@@ -146,6 +152,13 @@ class AiohttpClient(ABCHTTPClient):
             )
         async with self.session.head(url=url, data=data, **kwargs) as response:
             return response.headers
+
+    async def open(self) -> None:
+        if not self.session:
+            self.session = ClientSession(
+                json_serialize=self.json_processing_module.dumps,
+                **self._session_params,
+            )
 
     async def close(self) -> None:
         if self.session and not self.session.closed:

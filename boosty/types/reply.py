@@ -12,20 +12,20 @@ class Reply(BaseObject):
     id: UUID4
     intId: int
     createdAt: datetime
-    updatedAt: datetime | None
+    updatedAt: datetime | None = None
     isBlocked: bool
     isUpdated: bool
     isDeleted: bool
     author: Commentator
     reactions: Reactions
-    reacted: Reacted | None
+    reacted: Reacted | None = None
     replyCount: int
     post: dict[Literal["id"], UUID4]
     data: list[dict]
 
     replyToUser: Commentator
-    replyId: str
-    parentId: str
+    replyId: int
+    parentId: int
 
 
 class ReplyResponseExtra(BaseObject):

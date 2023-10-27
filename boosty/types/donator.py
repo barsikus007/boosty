@@ -10,12 +10,12 @@ class Donator(BaseObject):
     targetId: int
     createdAt: datetime
     user: DonatorUser
-    amount: int
+    amount: float
 
 
 class DonatorsResponseExtra(BaseObject):
     isLast: bool
-    offset: int | None
+    offset: int | None = None
     """Unknown, example: 10"""
 
 

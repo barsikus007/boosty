@@ -105,12 +105,16 @@ class Video(FileBase):
     """random frame from video as thumbnail"""
     preview: HttpUrl | Literal[""]  # TODO SOMETIMES SERVER SENDS EMPTY STRING
     """author thumbnail or defaultPreview"""
-    previewId: UUID4 | None
+    previewId: UUID4 | None = None
     """author thumbnail image id or None"""
     vid: int
     """Unknown, probably ok.ru video id"""
     failoverHost: str
     """Unknown, probably interchangeable host for playerUrls"""
+
+    timeCode: int  # TODO
+    viewsCounter: int  # TODO
+    showViewsCounter: bool  # TODO
 
 
 class Image(FileBase):
