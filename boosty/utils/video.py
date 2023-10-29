@@ -68,7 +68,7 @@ async def get_video_sizes(
     :return: list of PlayerUrl, sorted by quality descending
     """
     player_html = await api.http_client.request_text(
-        content.url, headers={"User-Agent": api.auth.user_agent, "referer": f"https://boosty.to/{name}"})
+        str(content.url), headers={"User-Agent": api.auth.user_agent, "referer": f"https://boosty.to/{name}"})
     ind = player_html.find("data-options=")
     if ind == -1:
         raise ValueError("No data-options found in player script")
@@ -106,7 +106,7 @@ async def select_max_size_url(
     :return: best PlayerUrl possible
     """
     for player_url in sort_urls_by_quality(player_urls):
-        headers = await api.http_client.request_headers(player_url.url, headers=api.auth.headers)
+        headers = await api.http_client.request_headers(str(player_url.url), headers=api.auth.headers)
         video_size = int(headers["content-length"])
         if video_size < 228:
             raise ValueError("Video is too small, probably error code")

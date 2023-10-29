@@ -110,7 +110,7 @@ class Post(BaseObject):
 
     @property
     def url(self) -> HttpUrl:
-        return HttpUrl(f"https://boosty.to/{self.user.blogUrl}/posts/{self.id}", scheme="https")
+        return HttpUrl(f"https://boosty.to/{self.user.blogUrl}/posts/{self.id}")
 
     @property
     def text(self) -> tuple[str, list[Entity]]:

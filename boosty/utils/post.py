@@ -56,18 +56,17 @@ def render_text(
             text = text[:-1]
         if content.type in ["text", "link"]:
             content: Text | Link
-            if isinstance(content, Text):
-                if schema_strict:
-                    if content.modificator not in ["", "BLOCK_END"]:
-                        raise ValueError(
-                            f"TEXT PARSER ERROR\n"
-                            f"content.modificator not in ['', 'BLOCK_END']\n"
-                            f"{content}")
-                    if content.modificator == "BLOCK_END" and len(content.content):
-                        raise ValueError(
-                            f"TEXT PARSER ERROR\n"
-                            f"content.modificator == 'BLOCK_END' with content!\n"
-                            f"{content}")
+            if isinstance(content, Text) and schema_strict:
+                if content.modificator not in ["", "BLOCK_END"]:
+                    raise ValueError(
+                        f"TEXT PARSER ERROR\n"
+                        f"content.modificator not in ['', 'BLOCK_END']\n"
+                        f"{content}")
+                if content.modificator == "BLOCK_END" and len(content.content):
+                    raise ValueError(
+                        f"TEXT PARSER ERROR\n"
+                        f"content.modificator == 'BLOCK_END' with content!\n"
+                        f"{content}")
             if len(content.content) == 0:
                 if content.modificator == "BLOCK_END":
                     text += "\n"
@@ -123,4 +122,4 @@ def render_text(
 
 
 def get_comment_url(post: "Post", comment: "Comment") -> HttpUrl:
-    return HttpUrl(f"{post.url.query}{comment.query}", scheme="https")
+    return HttpUrl(f"{post.url.query}{comment.query}")
