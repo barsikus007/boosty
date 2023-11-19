@@ -12,6 +12,8 @@ class Donator(BaseObject):
     user: DonatorUser
     amount: float
 
+    type: str  # TODO
+
 
 class DonatorsResponseExtra(BaseObject):
     isLast: bool

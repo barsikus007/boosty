@@ -9,7 +9,7 @@ from boosty.utils.logging import logger
 class Error(BaseModel):
     status_code: int
     error: str
-    error_description: str | None
+    error_description: str | None = None
 
 
 class BoostyError(Exception):

@@ -40,7 +40,7 @@ class SubscriptionLevel(BaseObject):
 
     currencyPrices: Currency
 
-    promos: list  # TODO
+    promos: dict | list  # TODO
 
 
 class React(BaseObject):
@@ -100,7 +100,7 @@ class Post(BaseObject):
     """Is post a stream record"""
     donators: DonatorsResponse
     """List of sponsors of the post"""
-    donations: float | dict  # TODO
+    donations: float | dict  # TODO dict is appearing sometimes
     """Amount of donations"""
     int_id: int
     """Unknown, probably post.id to int"""

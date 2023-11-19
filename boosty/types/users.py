@@ -17,7 +17,7 @@ class BaseUser(BaseObject):
 
 class BlogUser(BaseUser):
     blogUrl: str
-    flags: dict[Literal["showPostDonations"], bool]  # TODO
+    flags: dict[Literal["showPostDonations"], bool] | None = None  # TODO
 
 
 class Voter(BaseUser):

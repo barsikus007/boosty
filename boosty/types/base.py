@@ -1,6 +1,6 @@
 import os
 
-from pydantic import BaseModel, Extra
+from pydantic import BaseModel, Extra, ConfigDict
 
 from boosty.utils.logging import logger
 
@@ -11,5 +11,6 @@ if schema_strict:
 
 
 class BaseObject(BaseModel):
-    class Config:
-        extra = Extra.forbid if schema_strict else Extra.ignore
+    model_config = ConfigDict(
+        extra=Extra.forbid if schema_strict else Extra.ignore,
+    )

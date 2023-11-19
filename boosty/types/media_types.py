@@ -84,6 +84,8 @@ class Audio(FileBase):
     artist: str
     track: str
 
+    uploadStatus: str  # TODO could be "ok" or other
+
 
 class Video(FileBase):
     type: Literal["ok_video"]
@@ -112,9 +114,10 @@ class Video(FileBase):
     failoverHost: str
     """Unknown, probably interchangeable host for playerUrls"""
 
-    timeCode: int  # TODO
-    viewsCounter: int  # TODO
-    showViewsCounter: bool  # TODO
+    timeCode: int | None = None  # TODO
+    viewsCounter: int | None = None  # TODO
+    showViewsCounter: bool | None = None  # TODO
+    uploadStatus: str  # TODO could be "ok" or other
 
 
 class Image(FileBase):
