@@ -1,6 +1,6 @@
-from typing import Literal
+from typing import Literal, Optional
 
-from pydantic import HttpUrl, UUID4
+from pydantic import HttpUrl, UUID4, root_validator
 
 from .base import BaseObject
 
@@ -123,7 +123,13 @@ class Video(FileBase):
 class Image(FileBase):
     type: Literal["image"]
     rendition: Literal["", "teaser_auto_background"]
-    width: int | None
-    """Could be None if redention=='teaser_auto_background' and """
-    height: int | None
-    """Could be None if redention=='teaser_auto_background'"""
+    width: Optional[int] = None
+    height: Optional[int] = None
+
+    @root_validator(pre=True)
+    def check_width_height(cls, values):
+        rendition, width, height = values.get('rendition'), values.get('width'), values.get('height')
+        if rendition != 'teaser_auto_background':
+            if width is None or height is None:
+                raise ValueError('width and height must be provided unless rendition is "teaser_auto_background"')
+        return values
