@@ -1,9 +1,8 @@
 from typing import Literal
 
-from pydantic import HttpUrl, UUID4
+from pydantic import UUID4, HttpUrl
 
 from .base import BaseObject
-
 
 player_urls_size_names = Literal[
     "ultra_hd",  # 2160
@@ -71,6 +70,8 @@ class File(FileBase):
     title: str
     size: int
 
+    isMigrated: bool
+
 
 class Audio(FileBase):
     type: Literal["audio_file"]
@@ -117,13 +118,18 @@ class Video(FileBase):
     timeCode: int | None = None  # TODO
     viewsCounter: int | None = None  # TODO
     showViewsCounter: bool | None = None  # TODO
-    uploadStatus: str  # TODO could be "ok" or other
+    uploadStatus: str | None = None  # TODO could be "ok" or other
 
 
 class Image(FileBase):
     type: Literal["image"]
-    rendition: Literal["", "teaser_auto_background"]
-    width: int | None
-    """Could be None if redention=='teaser_auto_background' and """
-    height: int | None
-    """Could be None if redention=='teaser_auto_background'"""
+    rendition: Literal[""]
+    width: int
+    height: int
+
+
+class TeaserAutoBackgroundImage(FileBase):
+    type: Literal["image"]
+    rendition: Literal["teaser_auto_background"]
+    width: int | None = None
+    height: int | None = None

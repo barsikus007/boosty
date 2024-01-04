@@ -2,15 +2,15 @@ from datetime import datetime
 
 from pydantic import UUID4, HttpUrl
 
+from ..utils.post import Entity, render_text
 from .base import BaseObject
 from .comment import CommentsResponse
 from .content import Content
 from .donator import DonatorsResponse
 from .poll import Poll
 from .reactions import Reactions
-from .teaser import Teaser
+from .teaser import TeaserContent
 from .users import BlogUser
-from ..utils.post import render_text, Entity
 
 
 class Currency(BaseObject):
@@ -30,7 +30,7 @@ class SubscriptionLevel(BaseObject):
     """Creation timestamp"""
     price: int
     changePrice: int | None = None
-    data: list[Teaser]
+    data: list[TeaserContent]
     """Could be Conent type"""
     deleted: bool
     isArchived: bool
@@ -74,7 +74,7 @@ class Post(BaseObject):
 
     hasAccess: bool
     """Is post available for you"""
-    teaser: list[Teaser]
+    teaser: list[TeaserContent]
     """Post teaser for users which haven't access to post"""
 
     count: Count
@@ -106,6 +106,8 @@ class Post(BaseObject):
     """Unknown, probably post.id to int"""
 
     isDeleted: bool
+    """TODO"""
+    showViewsCounter: bool
     """TODO"""
 
     @property

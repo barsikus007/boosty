@@ -22,8 +22,8 @@ classifiers = [
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
 dependencies  = [
-    "pydantic[email]~=2.4.2",
-    "aiohttp~=3.9.0b0",
+    "pydantic[email]~=2.5.3",
+    "aiohttp~=3.9.1",
 ]
 dynamic = ["version"]
 
@@ -35,7 +35,7 @@ Source = "https://github.com/barsikus007/boosty"
 [project.optional-dependencies]
 logging = ["loguru~=0.7.2"]
 dotenv = ["python-dotenv~=1.0.0"]
-fast = ["orjson~=3.9.10", "aiohttp[speedups]~=3.9.0"]
+fast = ["orjson~=3.9.10", "aiohttp[speedups]~=3.9.1"]
 all = ["boosty[logging,dotenv,fast]"]
 
 
@@ -48,8 +48,11 @@ dependencies = [
   "pytest-cov",
   "pytest_asyncio",
 ]
+features = [
+  "all",
+]
 [tool.hatch.envs.default.scripts]
-cov = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=boobs --cov=tests {args}"
+cov = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=boosty --cov=tests {args}"
 no-cov = "cov --no-cov {args}"
 
 [[tool.hatch.envs.test.matrix]]

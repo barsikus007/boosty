@@ -2,9 +2,11 @@ from typing import Annotated
 
 from pydantic import Field
 
-from .media_types import Text, Image
+from .media_types import Image, TeaserAutoBackgroundImage, Text
+
+ImageTeaser = Annotated[
+    TeaserAutoBackgroundImage | Image,
+    Field(discriminator="rendition")]
 
 
-Teaser = Annotated[
-    Text | Image,
-    Field(discriminator="type")]
+TeaserContent = Annotated[Text | ImageTeaser, Field(discriminator="type")]
