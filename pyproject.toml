@@ -69,3 +69,23 @@ exclude_lines = [
   "if __name__ == .__main__.:",
   "if TYPE_CHECKING:",
 ]
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+  "A003",    # cause schema have id fields
+  "N815",    # cause schema in camelCase
+
+  "ANN001",  # for default=True like vars
+  "ANN101",  # for self
+  "ANN102",  # for cls
+  "ANN201",  # for handlers return
+  "ANN204",  # for __init__ return None
+  "ANN401",  # for Any
+  "EM101", "TRY003",  # for strings in exceptions
+  "D", "TD", "FIX",  # for TODOs
+  "ERA",     # for commented code
+  "RET502",  # for return without None
+  "RET503",  # for function without return
+  "RUF001",  # for cyrillic
+]

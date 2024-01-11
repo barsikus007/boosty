@@ -28,15 +28,17 @@ pip install boosty
 
 `boosty` is distributed under the terms of the [MIT](https://spdx.org/licenses/MIT.html) license.
 
-### **!WARNING! this version of library is very unstable**
-
-**If you use it, contact maintainer to help make it stable**
+> [!IMPORTANT]
+> **!WARNING! this version of library is very unstable**
+>
+> **If you use it, contact maintainer to help make it stable**
 
 ## Usage
 
-*Optional:* specify `DEBUG` environment variable to enable strict schema validation
+*Optional:* specify `IGNORE_MISSING_AND_EXTRA_FIELDS` environment variable to disable strict schema validation
 
 *Optional:* fill `auth.json` file with authentication data:
+
 ```json
 {
   "access_token": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
@@ -47,6 +49,7 @@ pip install boosty
 ```
 
 Example:
+
 ```python
 from boosty.api import API
 
@@ -55,14 +58,16 @@ response = await api.get_post("boosty", post_id="c9fb8a19-c45e-4602-9942-087c3af
 print(response.title)
 # 'Добро пожаловать на борт!'
 ```
+
 More examples in [examples/](https://github.com/barsikus007/boosty/blob/master/examples/) folder
 
 ### TODO for stable release
+
 - api schema
   - add access levels logic for requests
 - minimal docs
 - useful properties for models
-- merge reply comment with comment model 
+- merge reply comment with comment model
 - add examples
   - render text
   - get video url
@@ -71,3 +76,5 @@ More examples in [examples/](https://github.com/barsikus007/boosty/blob/master/e
   - boosty profile
   - comments
   - replies
+  - video
+  - entities parsing

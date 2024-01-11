@@ -1,5 +1,5 @@
 test.py
-auth.json
+*.json
 
 ### VisualStudioCode
 .vscode/*

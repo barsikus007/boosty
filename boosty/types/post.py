@@ -2,15 +2,15 @@ from datetime import datetime
 
 from pydantic import UUID4, HttpUrl
 
-from ..utils.post import Entity, render_text
-from .base import BaseObject
-from .comment import CommentsResponse
-from .content import Content
-from .donator import DonatorsResponse
-from .poll import Poll
-from .reactions import Reactions
-from .teaser import TeaserContent
-from .users import BlogUser
+from boosty.types.base import BaseObject
+from boosty.types.comment import CommentsResponse
+from boosty.types.content import Content
+from boosty.types.donator import DonatorsResponse
+from boosty.types.poll import Poll
+from boosty.types.reactions import Reactions
+from boosty.types.teaser import TeaserContent
+from boosty.types.users import BlogUser
+from boosty.utils.post import Entity, render_text
 
 
 class Currency(BaseObject):
@@ -51,6 +51,7 @@ class Count(BaseObject):
     likes: int
     comments: int
     reactions: Reactions
+    views: int | None = None
 
 
 class Post(BaseObject):
@@ -107,7 +108,7 @@ class Post(BaseObject):
 
     isDeleted: bool
     """TODO"""
-    showViewsCounter: bool
+    showViewsCounter: bool | None = None
     """TODO"""
 
     @property

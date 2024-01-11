@@ -86,6 +86,7 @@ class Audio(FileBase):
     track: str
 
     uploadStatus: str  # TODO could be "ok" or other
+    isMigrated: bool
 
 
 class Video(FileBase):

@@ -2,7 +2,7 @@ import re
 from struct import unpack
 from typing import TYPE_CHECKING
 
-from boosty.types.base import schema_strict
+from boosty.types.base import ignore_missing_and_extra_fields
 from boosty.types.media_types import Text, Link
 from boosty.utils.json import json
 from pydantic import BaseModel, HttpUrl
@@ -83,7 +83,7 @@ def render_text(
                     type='text_link', url=content.url,
                     offset=new_offset, length=len(add_surrogates(raw_text))))
             if raw_entities:
-                if schema_strict and raw_unstyled != 'unstyled':
+                if not ignore_missing_and_extra_fields and raw_unstyled != 'unstyled':
                     raise ValueError(
                         f"TEXT PARSER ERROR\n"
                         f"raw_unstyled != 'unstyled'\n"
@@ -99,7 +99,7 @@ def render_text(
                     elif format_type is None:
                         continue  # TODO unknown format in comments [None, 64, 0]
                     else:
-                        if schema_strict:
+                        if not ignore_missing_and_extra_fields:
                             raise ValueError(
                                 f"TEXT PARSER ERROR\n"
                                 f"Unknown style\n"
