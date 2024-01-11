@@ -21,6 +21,9 @@ player_urls_size_names = Literal[
     "live_dash",           # TODO idk
     "live_playback_hls",   # TODO idk
     "live_playback_dash",  # TODO idk
+
+    "live_ondemand_hls",   # TODO idk
+    "live_cmaf",           # TODO idk
 ]
 
 

@@ -2,13 +2,14 @@ import re
 from struct import unpack
 from typing import TYPE_CHECKING
 
-from boosty.types.base import ignore_missing_and_extra_fields
-from boosty.types.media_types import Text, Link
-from boosty.utils.json import json
 from pydantic import BaseModel, HttpUrl
 
+from boosty.types.base import ignore_missing_and_extra_fields
+from boosty.types.media_types import Link, Text
+from boosty.utils.json import json
+
 if TYPE_CHECKING:
-    from boosty.types import Post, Content
+    from boosty.types import Content, Post
     from boosty.types.comment import Comment
 
 
@@ -22,17 +23,18 @@ def add_surrogates(text):
     return SMP_RE.sub(
         lambda match:  # Split SMP in two surrogates
         "".join(chr(i) for i in unpack("<HH", match.group().encode("utf-16le"))),
-        text
+        text,
     )
 # pyrogram/parser/utils.py:41@626a1bd
 
 
 class Entity(BaseModel):
     """Telegram-like entity"""
+
     type: str
     offset: int
     length: int
-    url: str = None
+    url: str | None = None
 
 
 def render_text(
@@ -56,17 +58,19 @@ def render_text(
             text = text[:-1]
         if content.type in ["text", "link"]:
             content: Text | Link
-            if isinstance(content, Text) and schema_strict:
+            if isinstance(content, Text) and not ignore_missing_and_extra_fields:
                 if content.modificator not in ["", "BLOCK_END"]:
                     raise ValueError(
                         f"TEXT PARSER ERROR\n"
                         f"content.modificator not in ['', 'BLOCK_END']\n"
-                        f"{content}")
+                        f"{content}"
+                    )
                 if content.modificator == "BLOCK_END" and len(content.content):
                     raise ValueError(
                         f"TEXT PARSER ERROR\n"
                         f"content.modificator == 'BLOCK_END' with content!\n"
-                        f"{content}")
+                        f"{content}"
+                    )
             if len(content.content) == 0:
                 if content.modificator == "BLOCK_END":
                     text += "\n"
@@ -80,14 +84,15 @@ def render_text(
                 if len(text.lstrip()) == 0:
                     new_offset = new_offset - (len(raw_text) - len(raw_text.lstrip()))
                 entities.append(Entity(
-                    type='text_link', url=content.url,
+                    type="text_link", url=str(content.url),
                     offset=new_offset, length=len(add_surrogates(raw_text))))
             if raw_entities:
-                if not ignore_missing_and_extra_fields and raw_unstyled != 'unstyled':
+                if not ignore_missing_and_extra_fields and raw_unstyled != "unstyled":
                     raise ValueError(
                         f"TEXT PARSER ERROR\n"
                         f"raw_unstyled != 'unstyled'\n"
-                        f"{raw_text, raw_unstyled, raw_entities =}")
+                        f"{raw_text, raw_unstyled, raw_entities =}"
+                    )
                 for format_list in raw_entities:
                     format_type, offset, length = format_list
                     if format_type == 0:
@@ -103,7 +108,8 @@ def render_text(
                             raise ValueError(
                                 f"TEXT PARSER ERROR\n"
                                 f"Unknown style\n"
-                                f"{raw_text, raw_unstyled, raw_entities =}")
+                                f"{raw_text, raw_unstyled, raw_entities =}"
+                            )
                         continue
                     new_offset = len(add_surrogates(text.lstrip())) + offset
                     if len(text.lstrip()) == 0:
