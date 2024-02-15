@@ -1,6 +1,5 @@
 from datetime import datetime
-
-from pydantic import UUID4, HttpUrl
+from typing import Any
 
 from boosty.types.base import BaseObject
 from boosty.types.comment import CommentsResponse
@@ -11,6 +10,7 @@ from boosty.types.reactions import Reactions
 from boosty.types.teaser import TeaserContent
 from boosty.types.users import BlogUser
 from boosty.utils.post import Entity, render_text
+from pydantic import UUID4, HttpUrl
 
 
 class Currency(BaseObject):
@@ -91,6 +91,7 @@ class Post(BaseObject):
     """Subscription level for non-free posts"""
 
     poll: Poll | None = None
+    advertiserInfo: Any
     reacted: React | None = None
     """Unknown"""
     isWaitingVideo: bool
