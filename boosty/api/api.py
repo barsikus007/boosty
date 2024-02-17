@@ -1,8 +1,8 @@
-from pydantic import conint, UUID4, BaseModel
+from pydantic import UUID4, BaseModel, conint
 
 from boosty.api.auth import Auth
-from boosty.types import PostsResponse, Post, CommentsResponse
-from boosty.utils.client import AiohttpClient, ABCHTTPClient
+from boosty.types import CommentsResponse, Post, PostsResponse
+from boosty.utils.client import ABCHTTPClient, AiohttpClient
 from boosty.utils.logging import logger
 
 
@@ -49,7 +49,7 @@ class API:
 
         try:
             response_json = await response.json(
-                encoding="utf-8", content_type=None
+                encoding="utf-8", content_type=None,
             )
         except ValueError:
             response_json = {}
@@ -58,8 +58,8 @@ class API:
             raise BoostyError(
                 Error(
                     status_code=response.status,
-                    **response_json or {"error": "Unknown error"}
-                )
+                    **response_json or {"error": "Unknown error"},
+                ),
             )
 
         return response_json

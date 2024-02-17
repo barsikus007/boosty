@@ -4,8 +4,8 @@ from typing import Literal
 from pydantic import UUID4
 
 from .base import BaseObject
+from .reactions import Reacted, Reactions
 from .users import Commentator
-from .reactions import Reactions, Reacted
 
 
 class Reply(BaseObject):

@@ -2,7 +2,6 @@ from typing import Literal
 
 from .base import BaseObject
 
-
 reaction_names = Literal[
     "heart",
     "like",

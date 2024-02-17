@@ -1,15 +1,15 @@
-from typing import Literal, Annotated
 from datetime import datetime
+from typing import Annotated, Literal
 
 from pydantic import UUID4, Field
 
+from boosty.utils.post import Entity, render_text
+
 from .base import BaseObject
+from .media_types import Image, Link, Smile, Text
+from .reactions import Reacted, Reactions
 from .reply import RepliesResponse
 from .users import Commentator
-from .reactions import Reactions, Reacted
-from .media_types import Text, Smile, Link, Image
-from ..utils.post import render_text, Entity
-
 
 CommentContent = Annotated[
     Text | Smile | Image | Link,
@@ -39,7 +39,6 @@ class Comment(BaseObject):
     @property
     def text(self) -> tuple[str, list[Entity]]:
         return render_text(self.data)
-
 
 
 class CommentsResponseExtra(BaseObject):

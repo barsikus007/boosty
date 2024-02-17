@@ -2,8 +2,7 @@ from typing import Annotated
 
 from pydantic import Field
 
-from .media_types import Link, Text, LinkToVideo, File, Audio, Video, Image
-
+from .media_types import Audio, File, Image, Link, LinkToVideo, Text, Video
 
 Content = Annotated[
     Link | Text | LinkToVideo | File | Audio | Video | Image,

@@ -5,9 +5,8 @@ from pydantic import HttpUrl
 
 from boosty.api import API
 from boosty.types import BaseObject
-from boosty.types.media_types import Video, PlayerUrl, player_urls_size_names
+from boosty.types.media_types import PlayerUrl, Video, player_urls_size_names
 from boosty.utils.json import json
-
 
 size_names = Literal[
     "ultra",   # 2160
@@ -73,7 +72,7 @@ async def get_video_sizes(
     if ind == -1:
         raise ValueError("No data-options found in player script")
     do = ind + 14
-    video_data_raw = html.unescape(player_html[do:player_html.find("\"", do)])
+    video_data_raw = html.unescape(player_html[do:player_html.find('"', do)])
     video_data = json.loads(video_data_raw)
 
     sizes_list = json.loads(video_data["flashvars"]["metadata"])["videos"]

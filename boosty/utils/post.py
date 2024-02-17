@@ -1,4 +1,5 @@
 import re
+from collections.abc import Sequence
 from struct import unpack
 from typing import TYPE_CHECKING
 
@@ -10,7 +11,7 @@ from boosty.utils.json import json
 
 if TYPE_CHECKING:
     from boosty.types import Content, Post
-    from boosty.types.comment import Comment
+    from boosty.types.comment import Comment, CommentContent
 
 
 # pyrogram/parser/utils.py:19@626a1bd
@@ -38,7 +39,7 @@ class Entity(BaseModel):
 
 
 def render_text(
-        post_data: list["Content"],
+        post_data: Sequence["Content | CommentContent"],
         *,
         header="", placeholder="\n\n",
         fix_long_newlines=True, fix_end_newlines=True,
@@ -63,13 +64,13 @@ def render_text(
                     raise ValueError(
                         f"TEXT PARSER ERROR\n"
                         f"content.modificator not in ['', 'BLOCK_END']\n"
-                        f"{content}"
+                        f"{content}",
                     )
                 if content.modificator == "BLOCK_END" and len(content.content):
                     raise ValueError(
                         f"TEXT PARSER ERROR\n"
                         f"content.modificator == 'BLOCK_END' with content!\n"
-                        f"{content}"
+                        f"{content}",
                     )
             if len(content.content) == 0:
                 if content.modificator == "BLOCK_END":
@@ -91,7 +92,7 @@ def render_text(
                     raise ValueError(
                         f"TEXT PARSER ERROR\n"
                         f"raw_unstyled != 'unstyled'\n"
-                        f"{raw_text, raw_unstyled, raw_entities =}"
+                        f"{raw_text, raw_unstyled, raw_entities =}",
                     )
                 for format_list in raw_entities:
                     format_type, offset, length = format_list
@@ -108,7 +109,7 @@ def render_text(
                             raise ValueError(
                                 f"TEXT PARSER ERROR\n"
                                 f"Unknown style\n"
-                                f"{raw_text, raw_unstyled, raw_entities =}"
+                                f"{raw_text, raw_unstyled, raw_entities =}",
                             )
                         continue
                     new_offset = len(add_surrogates(text.lstrip())) + offset

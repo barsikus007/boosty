@@ -46,7 +46,7 @@ path = "boosty/__init__.py"
 dependencies = [
   "pytest",
   "pytest-cov",
-  "pytest_asyncio",
+  "pytest-asyncio",
 ]
 features = [
   "all",

@@ -1,6 +1,6 @@
-from typing import Literal
+from typing import Annotated, Literal
 
-from pydantic import HttpUrl, EmailStr, conint
+from pydantic import EmailStr, Field, HttpUrl
 
 from .base import BaseObject
 
@@ -32,7 +32,7 @@ class DonatorUser(Voter):
 
 
 class Commentator(BaseUser):
-    nickColor: conint(ge=0, le=15) | None = None
+    nickColor: Annotated[int, Field(gt=0, le=15)] | None = None
     """color id from 0 to 15"""
     displayName: str | None = None
     vkplayProfileLink: HttpUrl | Literal[""] | None = None

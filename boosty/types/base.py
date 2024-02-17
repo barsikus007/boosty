@@ -34,7 +34,7 @@ class BaseObjectStrict(BaseModel):
 class BaseObjectIgnore(BaseModel):
     @model_validator(mode="before")
     @classmethod
-    def _check_whether_foo_present(cls, values: dict) -> dict:
+    def _ignore_field_without_value(cls, values: dict) -> dict:
         for field in cls.model_fields.items():
             if field[0] not in values and field[1].is_required():
                 values.setdefault(field[0], default_value_resolver(cls.model_fields[field[0]].annotation))
