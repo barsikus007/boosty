@@ -91,6 +91,8 @@ class Audio(FileBase):
     uploadStatus: str  # TODO could be "ok" or other
     isMigrated: bool
 
+    fileType: Literal["MP3"] | None = None
+
 
 class Video(FileBase):
     type: Literal["ok_video"]

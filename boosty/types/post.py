@@ -1,5 +1,4 @@
 from datetime import datetime
-from typing import Any
 
 from pydantic import UUID4, HttpUrl
 
@@ -92,7 +91,7 @@ class Post(BaseObject):
     """Subscription level for non-free posts"""
 
     poll: Poll | None = None
-    advertiserInfo: Any
+    advertiserInfo: None
     reacted: React | None = None
     """Unknown"""
     isWaitingVideo: bool

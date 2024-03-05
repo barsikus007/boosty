@@ -26,7 +26,7 @@ class Poll(BaseObject):
     isMultiple: bool
     counter: int
     isFinished: bool
-    finishTime: int
+    finishTime: int | None = None
     id: int
     title: list[str]
     options: list[Option]
