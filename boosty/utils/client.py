@@ -2,7 +2,7 @@
 import asyncio
 from abc import ABC, abstractmethod
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, TypeVar
+from typing import TYPE_CHECKING, Any, Self
 
 from aiohttp import ClientSession
 from multidict import CIMultiDictProxy
@@ -11,9 +11,6 @@ from boosty.utils.json import json
 
 if TYPE_CHECKING:
     from aiohttp import ClientResponse
-
-
-TSingleAiohttpClient = TypeVar("TSingleAiohttpClient", bound="SingleAiohttpClient")
 
 
 class ABCHTTPClient(ABC):
@@ -86,9 +83,22 @@ class AiohttpClient(ABCHTTPClient):
             session_params["skip_auto_headers"] = {"User-Agent"}
             session_params["raise_for_status"] = True
 
-        self.session = session
+        self._session = session
 
         self._session_params = session_params
+
+    @property
+    def session(self) -> ClientSession:
+        if self._session is None:
+            self._session = ClientSession(
+                json_serialize=self.json_processing_module.dumps,
+                **self._session_params,
+            )
+        return self._session
+
+    @session.setter
+    def session(self, value: ClientSession | None):
+        self._session = value
 
     async def request_raw(
         self,
@@ -175,9 +185,7 @@ class AiohttpClient(ABCHTTPClient):
 class SingleAiohttpClient(AiohttpClient):
     __instance__ = None
 
-    def __new__(
-        cls: type[TSingleAiohttpClient], *args: Any, **kwargs: Any,
-    ) -> TSingleAiohttpClient:
+    def __new__(cls: type[Self], *args: Any, **kwargs: Any) -> Self:
         if cls.__instance__ is None:
             cls.__instance__ = super().__new__(cls, *args, **kwargs)
         return cls.__instance__

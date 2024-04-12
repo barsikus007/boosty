@@ -39,7 +39,7 @@ class Entity(BaseModel):
 
 
 def render_text(
-        post_data: Sequence["Content | CommentContent"],
+        post_data: Sequence[Content | CommentContent],
         *,
         header="", placeholder="\n\n",
         fix_long_newlines=True, fix_end_newlines=True,
@@ -73,7 +73,7 @@ def render_text(
                         f"{content}",
                     )
             if len(content.content) == 0:
-                if content.modificator == "BLOCK_END":
+                if getattr(content, "modificator", "") == "BLOCK_END":
                     text += "\n"
                 continue
             raw_text, raw_unstyled, raw_entities = json.loads(content.content)
@@ -128,5 +128,5 @@ def render_text(
     return text, entities
 
 
-def get_comment_url(post: "Post", comment: "Comment") -> HttpUrl:
+def get_comment_url(post: Post, comment: Comment) -> HttpUrl:
     return HttpUrl(f"{post.url.query}{comment.query}")

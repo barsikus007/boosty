@@ -6,7 +6,6 @@ from boosty.utils.logging import logger
 
 
 class Auth:  # TODO vk auth
-    access_token, refresh_token, expires_at, device_id, headers = None, None, None, None, None
     DEFAULT_USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36"  # noqa
     """https://techblog.willshouse.com/2012/01/03/most-common-user-agents/"""
 
@@ -17,6 +16,12 @@ class Auth:  # TODO vk auth
     ):
         self.auth_file = auth_file
         self.user_agent = user_agent
+
+        self.access_token: str | None = None
+        self.refresh_token: str | None = None
+        self.expires_at: str | None = None
+        self.device_id: str | None = None
+        self.headers = None
 
         self.load_auth_data()
 
@@ -51,10 +56,10 @@ class Auth:  # TODO vk auth
 
         print(f".env file found: {dotenv_file}")
         dotenv.load_dotenv(dotenv_file)
-        dotenv.set_key(dotenv_file, "ACCESS_TOKEN", self.access_token, "auto")
-        dotenv.set_key(dotenv_file, "REFRESH_TOKEN", self.refresh_token, "auto")
-        dotenv.set_key(dotenv_file, "EXPIRES_AT", self.expires_at, "auto")
-        dotenv.set_key(dotenv_file, "DEVICE_ID", self.device_id, "auto")
+        dotenv.set_key(dotenv_file, "ACCESS_TOKEN", str(self.access_token), "auto")
+        dotenv.set_key(dotenv_file, "REFRESH_TOKEN", str(self.refresh_token), "auto")
+        dotenv.set_key(dotenv_file, "EXPIRES_AT", str(self.expires_at), "auto")
+        dotenv.set_key(dotenv_file, "DEVICE_ID", str(self.device_id), "auto")
 
     async def refresh_auth_data(self, session: ABCHTTPClient, api_url: str = ""):
         self.load_auth_data()

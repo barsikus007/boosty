@@ -1,7 +1,12 @@
 from pathlib import Path
+from types import ModuleType
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    json: ModuleType
 
 try:
-    from orjson import json
+    from orjson import json  # type: ignore
     module = "orjson"
 except ImportError:
     import json
