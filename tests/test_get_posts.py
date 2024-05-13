@@ -2,7 +2,7 @@ import pytest
 
 from boosty.api import API
 
-pytest_plugins = ('pytest_asyncio',)
+pytest_plugins = ("pytest_asyncio",)
 
 
 @pytest.mark.asyncio(scope="module")

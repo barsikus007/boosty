@@ -41,4 +41,6 @@ class BaseObjectIgnore(BaseModel):
         return values
 
 
+# TODO type is 3.12?
+# TODO set extra allow by default?
 BaseObject: type[BaseModel] = BaseObjectIgnore if ignore_missing_and_extra_fields else BaseObjectStrict
