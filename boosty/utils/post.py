@@ -14,7 +14,7 @@ if TYPE_CHECKING:
     from boosty.types.comment import Comment, CommentContent
 
 
-# pyrogram/parser/utils.py:19@626a1bd
+# pyrogram/parser/utils.py:L21@626a1bd
 # SMP = Supplementary Multilingual Plane: https://en.wikipedia.org/wiki/Plane_(Unicode)#Overview
 SMP_RE = re.compile(r"[\U00010000-\U0010FFFF]")
 
@@ -26,7 +26,7 @@ def add_surrogates(text):
         "".join(chr(i) for i in unpack("<HH", match.group().encode("utf-16le"))),
         text,
     )
-# pyrogram/parser/utils.py:41@626a1bd
+# pyrogram/parser/utils.py:L33@626a1bd
 
 
 class Entity(BaseModel):
@@ -39,7 +39,7 @@ class Entity(BaseModel):
 
 
 def render_text(
-        post_data: Sequence[Content | CommentContent],
+        post_data: Sequence["Content | CommentContent"],
         *,
         header="", placeholder="\n\n",
         fix_long_newlines=True, fix_end_newlines=True,
@@ -128,5 +128,5 @@ def render_text(
     return text, entities
 
 
-def get_comment_url(post: Post, comment: Comment) -> HttpUrl:
+def get_comment_url(post: "Post", comment: "Comment") -> HttpUrl:
     return HttpUrl(f"{post.url.query}{comment.query}")

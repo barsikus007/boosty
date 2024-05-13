@@ -2,10 +2,11 @@
 import asyncio
 from abc import ABC, abstractmethod
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, Self
+from typing import TYPE_CHECKING, Any
 
 from aiohttp import ClientSession
 from multidict import CIMultiDictProxy
+from typing_extensions import Self
 
 from boosty.utils.json import json
 
@@ -24,31 +25,50 @@ class ABCHTTPClient(ABC):
 
     @abstractmethod
     async def request_raw(
-        self, url: str, method: str = "GET", data: dict | None = None, **kwargs,
+        self,
+        url: str,
+        method: str = "GET",
+        data: dict | None = None,
+        **kwargs,
     ) -> Any:
         pass
 
     @abstractmethod
     async def request_text(
-        self, url: str, method: str = "GET", data: dict | None = None, **kwargs,
+        self,
+        url: str,
+        method: str = "GET",
+        data: dict | None = None,
+        **kwargs,
     ) -> str:
         pass
 
     @abstractmethod
     async def request_json(
-        self, url: str, method: str = "GET", data: dict | None = None, **kwargs,
+        self,
+        url: str,
+        method: str = "GET",
+        data: dict | None = None,
+        **kwargs,
     ) -> dict:
         pass
 
     @abstractmethod
     async def request_content(
-        self, url: str, method: str = "GET", data: dict | None = None, **kwargs,
+        self,
+        url: str,
+        method: str = "GET",
+        data: dict | None = None,
+        **kwargs,
     ) -> bytes:
         pass
 
     @abstractmethod
     async def request_headers(
-        self, url: str, data: dict | None = None, **kwargs,
+        self,
+        url: str,
+        data: dict | None = None,
+        **kwargs,
     ) -> Mapping[str, str]:
         pass
 
@@ -75,9 +95,7 @@ class AiohttpClient(ABCHTTPClient):
         optimize: bool = False,
         **session_params,
     ):
-        self.json_processing_module = (
-            json_processing_module or session_params.pop("json_serialize", None) or json
-        )
+        self.json_processing_module = json_processing_module or session_params.pop("json_serialize", None) or json
 
         if optimize:
             session_params["skip_auto_headers"] = {"User-Agent"}
@@ -127,7 +145,9 @@ class AiohttpClient(ABCHTTPClient):
     ) -> dict:
         response = await self.request_raw(url, method, data, **kwargs)
         return await response.json(
-            encoding="utf-8", loads=self.json_processing_module.loads, content_type=None,
+            encoding="utf-8",
+            loads=self.json_processing_module.loads,
+            content_type=None,
         )
 
     async def request_text(

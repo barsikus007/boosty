@@ -1,5 +1,6 @@
+from typing import Annotated
+
 from pydantic import UUID4, BaseModel, Field
-from typing_extensions import Annotated
 
 from boosty.api.auth import Auth
 from boosty.types import CommentsResponse, Post, PostsResponse
@@ -21,9 +22,9 @@ class API:
     API_URL = "https://api.boosty.to"
 
     def __init__(
-            self,
-            http_client: ABCHTTPClient = AiohttpClient(),
-            auth: Auth = Auth(),
+        self,
+        http_client: ABCHTTPClient = AiohttpClient(),
+        auth: Auth = Auth(),
     ):
         self.http_client = http_client
         self.auth = auth
@@ -50,7 +51,8 @@ class API:
 
         try:
             response_json = await response.json(
-                encoding="utf-8", content_type=None,
+                encoding="utf-8",
+                content_type=None,
             )
         except ValueError:
             response_json = {}
@@ -66,56 +68,62 @@ class API:
         return response_json
 
     async def get_posts(
-            self,
-            name: str,
-            *,
-            limit: Annotated[int, Field(strict=True, ge=1)] | None = None,  # limit is based on data amount ~300
-            offset: str | None = None,  # "1654884900:923396"
-            comments_limit: Annotated[int, Field(strict=True, ge=0)] | None = None,
-            reply_limit: int | None = None,  # idk ~1
+        self,
+        name: str,
+        *,
+        limit: Annotated[int, Field(strict=True, ge=1)] | None = None,  # limit is based on data amount ~300
+        offset: str | None = None,  # "1654884900:923396"
+        comments_limit: Annotated[int, Field(strict=True, ge=0)] | None = None,
+        reply_limit: int | None = None,  # idk ~1
     ) -> PostsResponse:
         resp_json = await self.request(
             "GET",
-            f"/v1/blog/{name}/post/", params={
+            f"/v1/blog/{name}/post/",
+            params={
                 "limit": limit,
                 "offset": offset,
                 "comments_limit": comments_limit,
                 "reply_limit": reply_limit,
-            })
+            },
+        )
         return PostsResponse(**resp_json)
 
     async def get_post(
-            self,
-            name: str,
-            post_id: UUID4 | str,
-            *,
-            comments_limit: Annotated[int, Field(strict=True, ge=0)] | None = None,
-            reply_limit: int | None = None,  # idk ~1
+        self,
+        name: str,
+        post_id: UUID4 | str,
+        *,
+        comments_limit: Annotated[int, Field(strict=True, ge=0)] | None = None,
+        reply_limit: int | None = None,  # idk ~1
     ) -> Post:
         resp_json = await self.request(
             "GET",
-            f"/v1/blog/{name}/post/{post_id}", params={
+            f"/v1/blog/{name}/post/{post_id}",
+            params={
                 "comments_limit": comments_limit,
                 "reply_limit": reply_limit,
-            })
+            },
+        )
         return Post(**resp_json)
 
     async def get_post_comments(
-            self,
-            name: str,
-            post_id: UUID4 | str,
-            *,
-            offset: str | None = None,  # "1654884900:923396"
-            limit: Annotated[int, Field(strict=True, ge=0)] | None = None,  # ~20
-            reply_limit: int | None = None,  # idk ~1
-            order: str | None = None,  # ~"top"
+        self,
+        name: str,
+        post_id: UUID4 | str,
+        *,
+        offset: str | None = None,  # "1654884900:923396"
+        limit: Annotated[int, Field(strict=True, ge=0)] | None = None,  # ~20
+        reply_limit: int | None = None,  # idk ~1
+        order: str | None = None,  # ~"top"
     ) -> CommentsResponse:
         resp_json = await self.request(
             "GET",
-            f"/v1/blog/{name}/post/{post_id}/comment/", params={
+            f"/v1/blog/{name}/post/{post_id}/comment/",
+            params={
                 "offset": offset,
                 "limit": limit,
                 "reply_limit": reply_limit,
                 "order": order,
-            })
+            },
+        )
         return CommentsResponse(**resp_json)
