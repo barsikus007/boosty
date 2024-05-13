@@ -14,7 +14,7 @@ if TYPE_CHECKING:
     from boosty.types.comment import Comment, CommentContent
 
 
-# pyrogram/parser/utils.py:19@626a1bd
+# pyrogram/parser/utils.py:L21@626a1bd
 # SMP = Supplementary Multilingual Plane: https://en.wikipedia.org/wiki/Plane_(Unicode)#Overview
 SMP_RE = re.compile(r"[\U00010000-\U0010FFFF]")
 
@@ -26,7 +26,7 @@ def add_surrogates(text):
         "".join(chr(i) for i in unpack("<HH", match.group().encode("utf-16le"))),
         text,
     )
-# pyrogram/parser/utils.py:41@626a1bd
+# pyrogram/parser/utils.py:L33@626a1bd
 
 
 class Entity(BaseModel):
@@ -73,7 +73,7 @@ def render_text(
                         f"{content}",
                     )
             if len(content.content) == 0:
-                if content.modificator == "BLOCK_END":
+                if getattr(content, "modificator", "") == "BLOCK_END":
                     text += "\n"
                 continue
             raw_text, raw_unstyled, raw_entities = json.loads(content.content)

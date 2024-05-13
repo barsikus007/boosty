@@ -2,18 +2,16 @@
 import asyncio
 from abc import ABC, abstractmethod
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, TypeVar
+from typing import TYPE_CHECKING, Any
 
 from aiohttp import ClientSession
 from multidict import CIMultiDictProxy
+from typing_extensions import Self
 
 from boosty.utils.json import json
 
 if TYPE_CHECKING:
     from aiohttp import ClientResponse
-
-
-TSingleAiohttpClient = TypeVar("TSingleAiohttpClient", bound="SingleAiohttpClient")
 
 
 class ABCHTTPClient(ABC):
@@ -27,31 +25,50 @@ class ABCHTTPClient(ABC):
 
     @abstractmethod
     async def request_raw(
-        self, url: str, method: str = "GET", data: dict | None = None, **kwargs,
+        self,
+        url: str,
+        method: str = "GET",
+        data: dict | None = None,
+        **kwargs,
     ) -> Any:
         pass
 
     @abstractmethod
     async def request_text(
-        self, url: str, method: str = "GET", data: dict | None = None, **kwargs,
+        self,
+        url: str,
+        method: str = "GET",
+        data: dict | None = None,
+        **kwargs,
     ) -> str:
         pass
 
     @abstractmethod
     async def request_json(
-        self, url: str, method: str = "GET", data: dict | None = None, **kwargs,
+        self,
+        url: str,
+        method: str = "GET",
+        data: dict | None = None,
+        **kwargs,
     ) -> dict:
         pass
 
     @abstractmethod
     async def request_content(
-        self, url: str, method: str = "GET", data: dict | None = None, **kwargs,
+        self,
+        url: str,
+        method: str = "GET",
+        data: dict | None = None,
+        **kwargs,
     ) -> bytes:
         pass
 
     @abstractmethod
     async def request_headers(
-        self, url: str, data: dict | None = None, **kwargs,
+        self,
+        url: str,
+        data: dict | None = None,
+        **kwargs,
     ) -> Mapping[str, str]:
         pass
 
@@ -78,17 +95,28 @@ class AiohttpClient(ABCHTTPClient):
         optimize: bool = False,
         **session_params,
     ):
-        self.json_processing_module = (
-            json_processing_module or session_params.pop("json_serialize", None) or json
-        )
+        self.json_processing_module = json_processing_module or session_params.pop("json_serialize", None) or json
 
         if optimize:
             session_params["skip_auto_headers"] = {"User-Agent"}
             session_params["raise_for_status"] = True
 
-        self.session = session
+        self._session = session
 
         self._session_params = session_params
+
+    @property
+    def session(self) -> ClientSession:
+        if self._session is None:
+            self._session = ClientSession(
+                json_serialize=self.json_processing_module.dumps,
+                **self._session_params,
+            )
+        return self._session
+
+    @session.setter
+    def session(self, value: ClientSession | None):
+        self._session = value
 
     async def request_raw(
         self,
@@ -117,7 +145,9 @@ class AiohttpClient(ABCHTTPClient):
     ) -> dict:
         response = await self.request_raw(url, method, data, **kwargs)
         return await response.json(
-            encoding="utf-8", loads=self.json_processing_module.loads, content_type=None,
+            encoding="utf-8",
+            loads=self.json_processing_module.loads,
+            content_type=None,
         )
 
     async def request_text(
@@ -175,9 +205,7 @@ class AiohttpClient(ABCHTTPClient):
 class SingleAiohttpClient(AiohttpClient):
     __instance__ = None
 
-    def __new__(
-        cls: type[TSingleAiohttpClient], *args: Any, **kwargs: Any,
-    ) -> TSingleAiohttpClient:
+    def __new__(cls: type[Self], *args: Any, **kwargs: Any) -> Self:
         if cls.__instance__ is None:
             cls.__instance__ = super().__new__(cls, *args, **kwargs)
         return cls.__instance__

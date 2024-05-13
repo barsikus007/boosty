@@ -2,7 +2,6 @@ import pytest
 
 from boosty.api import API
 
-
 pytest_plugins = ('pytest_asyncio',)
 
 
