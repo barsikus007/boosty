@@ -107,6 +107,8 @@ class Post(BaseObject):
     int_id: int
     """Unknown, probably post.id to int"""
 
+    isBlocked: bool
+    """New option is Post Blocked by platform or some reason"""
     isDeleted: bool
     """TODO"""
     showViewsCounter: bool | None = None
