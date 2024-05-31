@@ -93,6 +93,10 @@ class Audio(FileBase):
 
     fileType: Literal["MP3"] | None = None
 
+    timeCode: int | None = None  # TODO
+    viewsCounter: int | None = None  # TODO
+    showViewsCounter: bool | None = None  # TODO
+
 
 class Video(FileBase):
     type: Literal["ok_video"]
