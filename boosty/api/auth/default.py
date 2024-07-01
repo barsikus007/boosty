@@ -1,12 +1,14 @@
+from os import PathLike
 from time import time
 
 from boosty.utils.client import ABCHTTPClient
 from boosty.utils.json import dict_to_file, file_to_dict
 from boosty.utils.logging import logger
-from os import PathLike
+
 
 class Auth:  # TODO vk auth
-    DEFAULT_USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36"  # noqa
+    DEFAULT_USER_AGENT = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
+                          "Chrome/126.0.0.0 Safari/537.36")
     """https://techblog.willshouse.com/2012/01/03/most-common-user-agents/"""
 
     def __init__(
