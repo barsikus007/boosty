@@ -3,7 +3,7 @@ from time import time
 from boosty.utils.client import ABCHTTPClient
 from boosty.utils.json import dict_to_file, file_to_dict
 from boosty.utils.logging import logger
-
+from os import PathLike
 
 class Auth:  # TODO vk auth
     DEFAULT_USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36"  # noqa
@@ -11,7 +11,7 @@ class Auth:  # TODO vk auth
 
     def __init__(
             self,
-            auth_file: str = "auth.json",
+            auth_file: str | PathLike[str] = "auth.json",
             user_agent: str = DEFAULT_USER_AGENT,
     ):
         self.auth_file = auth_file
