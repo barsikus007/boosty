@@ -11,6 +11,7 @@ from boosty.types.reactions import Reactions
 from boosty.types.teaser import TeaserContent
 from boosty.types.users import BlogUser
 from boosty.utils.post import Entity, render_text
+from boosty.types.counters import Counter
 
 
 class Currency(BaseObject):
@@ -31,7 +32,7 @@ class SubscriptionLevel(BaseObject):
     price: int
     changePrice: int | None = None
     data: list[TeaserContent]
-    """Could be Conent type"""
+    """Could be Content type"""
     deleted: bool
     isArchived: bool
     name: str
@@ -71,6 +72,8 @@ class Post(BaseObject):
     """Post title"""
     data: list[Content]
     """List of contents, attached to post (text included)"""
+    contentCounters: list[Counter]
+    """List of counters and sizes, attached to post (text included)"""
     tags: list[Tag]
 
     hasAccess: bool
@@ -113,6 +116,7 @@ class Post(BaseObject):
     """TODO"""
     showViewsCounter: bool | None = None
     """TODO"""
+
 
     @property
     def url(self) -> HttpUrl:

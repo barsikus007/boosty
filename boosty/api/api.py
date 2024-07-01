@@ -24,10 +24,13 @@ class API:
     def __init__(
         self,
         http_client: ABCHTTPClient = AiohttpClient(),
-        auth: Auth = Auth(),
+        auth: Auth = None,
     ):
         self.http_client = http_client
-        self.auth = auth
+        if auth is None:
+            self.auth = Auth()
+        else:
+            self.auth = auth
 
     async def request(self, method: str, path: str, params: dict | None = None, data: dict | None = None) -> dict:
         if not params:

@@ -136,6 +136,7 @@ class Image(FileBase):
     rendition: Literal[""]
     width: int
     height: int
+    size: int
 
 
 class TeaserAutoBackgroundImage(FileBase):
@@ -143,3 +144,5 @@ class TeaserAutoBackgroundImage(FileBase):
     rendition: Literal["teaser_auto_background"]
     width: int | None = None
     height: int | None = None
+    size: int
+
