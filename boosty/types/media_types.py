@@ -82,11 +82,14 @@ class Audio(FileBase):
     title: str
     size: int
 
-    """may be None if complete == False"""
-    duration: int
-    album: str
-    artist: str
-    track: str
+    """Duration of audio track"""
+    duration: int | None = None
+    """Album from MP3 ID3 Tag"""
+    album: str | None = None
+    """Artist from MP3 ID3 Tag"""
+    artist: str | None = None
+    """Track Name from MP3 ID3 Tag"""
+    track: str | None = None
 
     uploadStatus: str  # TODO could be "ok" or other
     isMigrated: bool
