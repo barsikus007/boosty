@@ -1,20 +1,22 @@
-from os import PathLike
 from time import time
 
 from boosty.utils.client import ABCHTTPClient
 from boosty.utils.json import dict_to_file, file_to_dict
 from boosty.utils.logging import logger
+from boosty.utils.types import FileName
 
 
 class Auth:  # TODO vk auth
-    DEFAULT_USER_AGENT = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
-                          "Chrome/126.0.0.0 Safari/537.36")
+    DEFAULT_USER_AGENT = (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
+        "Chrome/126.0.0.0 Safari/537.36"
+    )
     """https://techblog.willshouse.com/2012/01/03/most-common-user-agents/"""
 
     def __init__(
-            self,
-            auth_file: str | PathLike[str] = "auth.json",
-            user_agent: str = DEFAULT_USER_AGENT,
+        self,
+        auth_file: FileName = "auth.json",
+        user_agent: str = DEFAULT_USER_AGENT,
     ):
         self.auth_file = auth_file
         self.user_agent = user_agent
@@ -51,7 +53,7 @@ class Auth:  # TODO vk auth
         dict_to_file(auth_data, self.auth_file)
 
     def save_auth_data_dotenv(self, dotenv_file=None):
-        import dotenv  # noqa
+        import dotenv
 
         if not dotenv_file:
             dotenv_file = dotenv.find_dotenv()
@@ -77,7 +79,8 @@ class Auth:  # TODO vk auth
                 "grant_type": "refresh_token",
                 "refresh_token": self.refresh_token,
             },
-            headers=self.headers)
+            headers=self.headers,
+        )
 
         try:
             self.refresh_token = response_data["refresh_token"]
