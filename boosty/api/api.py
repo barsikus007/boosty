@@ -4,7 +4,7 @@ from pydantic import UUID4, BaseModel, Field
 
 from boosty.api.auth import Auth
 from boosty.types import CommentsResponse, Post, PostsResponse
-from boosty.utils.client import ABCHTTPClient, AiohttpClient
+from boosty.utils.client import ABCHTTPClient, SingleAiohttpClient
 from boosty.utils.logging import logger
 
 
@@ -23,14 +23,12 @@ class API:
 
     def __init__(
         self,
-        http_client: ABCHTTPClient = AiohttpClient(),
-        auth: Auth = None,
+        *,
+        http_client: ABCHTTPClient | None = None,
+        auth: Auth | None = None,
     ):
-        self.http_client = http_client
-        if auth is None:
-            self.auth = Auth()
-        else:
-            self.auth = auth
+        self.http_client = SingleAiohttpClient() if http_client is None else http_client
+        self.auth = Auth() if auth is None else auth
 
     async def request(self, method: str, path: str, params: dict | None = None, data: dict | None = None) -> dict:
         if not params:

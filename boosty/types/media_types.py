@@ -4,6 +4,7 @@ from pydantic import UUID4, HttpUrl
 
 from .base import BaseObject
 
+# fmt: off
 player_urls_size_names = Literal[
     "ultra_hd",  # 2160
     "quad_hd",   # 1440
@@ -25,6 +26,7 @@ player_urls_size_names = Literal[
     "live_ondemand_hls",   # TODO idk
     "live_cmaf",           # TODO idk
 ]
+# fmt: on
 
 
 class PlayerUrl(BaseObject):
@@ -82,14 +84,14 @@ class Audio(FileBase):
     title: str
     size: int
 
-    """Duration of audio track"""
     duration: int | None = None
-    """Album from MP3 ID3 Tag"""
+    """Duration of audio track"""
     album: str | None = None
-    """Artist from MP3 ID3 Tag"""
+    """Album from MP3 ID3 Tag"""
     artist: str | None = None
-    """Track Name from MP3 ID3 Tag"""
+    """Artist from MP3 ID3 Tag"""
     track: str | None = None
+    """Track Name from MP3 ID3 Tag"""
 
     uploadStatus: str  # TODO could be "ok" or other
     isMigrated: bool
@@ -148,4 +150,3 @@ class TeaserAutoBackgroundImage(FileBase):
     width: int | None = None
     height: int | None = None
     size: int
-

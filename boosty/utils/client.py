@@ -1,26 +1,27 @@
 # stolen from vkbottle with love <3
-import asyncio
+from __future__ import annotations
+
+import json as json_module
 from abc import ABC, abstractmethod
-from collections.abc import Mapping
 from typing import TYPE_CHECKING, Any
 
 from aiohttp import ClientSession
-from multidict import CIMultiDictProxy
-from typing_extensions import Self
-
-from boosty.utils.json import json
 
 if TYPE_CHECKING:
+    from collections.abc import Mapping
+    from types import TracebackType
+
     from aiohttp import ClientResponse
+    from multidict import CIMultiDictProxy
 
 
 class ABCHTTPClient(ABC):
     """Abstract class for http-clients
-    Documentation: https://github.com/vkbottle/vkbottle/blob/master/docs/low-level/http/http-client.md
+    Documentation: https://vkbottle.rtfd.io/ru/latest/low-level/http-client
     """
 
     @abstractmethod
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         pass
 
     @abstractmethod
@@ -73,17 +74,18 @@ class ABCHTTPClient(ABC):
         pass
 
     @abstractmethod
-    async def open(self) -> None:
-        pass
-
-    @abstractmethod
     async def close(self) -> None:
         pass
 
-    async def __aenter__(self) -> "ABCHTTPClient":
+    async def __aenter__(self) -> ABCHTTPClient:
         return self
 
-    async def __aexit__(self, exc_type, exc_val, exc_tb) -> None:
+    async def __aexit__(
+        self,
+        exc_type: type[BaseException] | None,
+        exc_value: BaseException | None,
+        traceback: TracebackType | None,
+    ) -> None:
         await self.close()
 
 
@@ -94,49 +96,35 @@ class AiohttpClient(ABCHTTPClient):
         json_processing_module: Any | None = None,
         optimize: bool = False,
         **session_params,
-    ):
-        self.json_processing_module = json_processing_module or session_params.pop("json_serialize", None) or json
+    ) -> None:
+        json_serialize = session_params.pop("json_serialize", None)
+        self.json_processing_module = json_processing_module or json_serialize or json_module
 
         if optimize:
             session_params["skip_auto_headers"] = {"User-Agent"}
             session_params["raise_for_status"] = True
 
-        self._session = session
+        self.session = session
 
         self._session_params = session_params
 
-    @property
-    def session(self) -> ClientSession:
-        if self._session is None:
-            self._session = ClientSession(
-                json_serialize=self.json_processing_module.dumps,
-                **self._session_params,
-            )
-        return self._session
-
-    @session.setter
-    def session(self, value: ClientSession | None):
-        self._session = value
-
-    async def request_raw(
+    async def request_raw(  # type: ignore[override]
         self,
         url: str,
         method: str = "GET",
         data: dict | None = None,
         **kwargs,
-    ) -> "ClientResponse":
-        await self.open()
-        try:
-            async with self.session.request(url=url, method=method, data=data, **kwargs) as response:
-                await response.read()
-                return response
-        except asyncio.TimeoutError as e:
-            await self.close()
-            self.session = None
-            await self.open()
-            raise asyncio.TimeoutError from e
+    ) -> ClientResponse:
+        if not self.session:
+            self.session = ClientSession(  # type: ignore[misc]
+                json_serialize=self.json_processing_module.dumps,
+                **self._session_params,  # type: ignore[arg-type]
+            )
+        async with self.session.request(url=url, method=method, data=data, **kwargs) as response:
+            await response.read()
+            return response
 
-    async def request_json(
+    async def request_json(  # type: ignore[override]
         self,
         url: str,
         method: str = "GET",
@@ -150,7 +138,7 @@ class AiohttpClient(ABCHTTPClient):
             content_type=None,
         )
 
-    async def request_text(
+    async def request_text(  # type: ignore[override]
         self,
         url: str,
         method: str = "GET",
@@ -160,7 +148,7 @@ class AiohttpClient(ABCHTTPClient):
         response = await self.request_raw(url, method, data, **kwargs)
         return await response.text(encoding="utf-8")
 
-    async def request_content(
+    async def request_content(  # type: ignore[override]
         self,
         url: str,
         method: str = "GET",
@@ -170,7 +158,7 @@ class AiohttpClient(ABCHTTPClient):
         response = await self.request_raw(url, method, data, **kwargs)
         return response._body
 
-    async def request_headers(
+    async def request_headers(  # type: ignore[override]
         self,
         url: str,
         data: dict | None = None,
@@ -195,20 +183,17 @@ class AiohttpClient(ABCHTTPClient):
         if self.session and not self.session.closed:
             await self.session.close()
 
-    def __del__(self):
+    def __del__(self) -> None:
         if self.session and not self.session.closed:
             if self.session._connector is not None and self.session._connector_owner:
-                self.session._connector.close()
+                self.session._connector._close()
             self.session._connector = None
 
 
 class SingleAiohttpClient(AiohttpClient):
     __instance__ = None
 
-    def __new__(cls: type[Self], *args: Any, **kwargs: Any) -> Self:
+    def __call__(cls, *args, **kwargs):  # noqa: N805
         if cls.__instance__ is None:
-            cls.__instance__ = super().__new__(cls, *args, **kwargs)
+            cls.__instance__ = super().__call__(*args, **kwargs)
         return cls.__instance__
-
-    async def __aexit__(self, exc_type, exc_val, exc_tb):
-        pass  # no need to close session in this case
