@@ -33,10 +33,9 @@ Issues = "https://github.com/barsikus007/boosty/issues"
 Source = "https://github.com/barsikus007/boosty"
 
 [project.optional-dependencies]
-logging = ["loguru~=0.7.2"]
 dotenv = ["python-dotenv~=1.0.0"]
 fast = ["orjson~=3.9.10", "aiohttp[speedups]~=3.9.1"]
-all = ["boosty[logging,dotenv,fast]"]
+all = ["boosty[dotenv,fast]"]
 
 
 [tool.hatch.version]
@@ -57,6 +56,9 @@ no-cov = "cov --no-cov {args}"
 
 [[tool.hatch.envs.test.matrix]]
 python = ["310", "311", "312"]
+
+[tool.pytest.ini_options]
+log_cli = true
 
 [tool.coverage.run]
 branch = true

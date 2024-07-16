@@ -63,7 +63,7 @@ More examples in [examples/](https://github.com/barsikus007/boosty/blob/master/e
 
 ### TODO for stable release
 
-- api schema
+- complete api schema
   - add access levels logic for requests
 - minimal docs
 - useful properties for models
