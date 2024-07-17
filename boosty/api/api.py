@@ -5,6 +5,7 @@ from pydantic import UUID4, BaseModel, Field
 from boosty.api.auth import Auth
 from boosty.types import CommentsResponse, Post, PostsResponse
 from boosty.utils.client import ABCHTTPClient, SingleAiohttpClient
+from boosty.utils.consts import API_URL
 from boosty.utils.logging import logger
 
 
@@ -19,8 +20,6 @@ class BoostyError(Exception):
 
 
 class API:
-    API_URL = "https://api.boosty.to"
-
     def __init__(
         self,
         *,
@@ -38,7 +37,7 @@ class API:
         params = {key: value for key, value in params.items() if value is not None}
         data = {key: value for key, value in data.items() if value is not None}
         response = await self.http_client.request_raw(
-            f"{self.API_URL}{path}",
+            f"{API_URL}{path}",
             method=method,
             params=params,
             data=data,

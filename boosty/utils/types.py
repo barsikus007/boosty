@@ -1,4 +1,4 @@
 from os import PathLike
 from typing import TypeAlias
 
-FileName: TypeAlias = str | bytes | PathLike
+StrPath: TypeAlias = str | PathLike[str]
