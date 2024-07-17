@@ -1,3 +1,3 @@
-from .default import Auth
+from .auth import Auth
 
 __all__ = ("Auth",)
