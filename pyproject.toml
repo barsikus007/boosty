@@ -63,7 +63,9 @@ log_cli = true
 [tool.coverage.run]
 branch = true
 parallel = true
-omit = []
+omit = [
+  "boosty/utils/browser_login.py",
+]
 
 [tool.coverage.report]
 exclude_lines = [

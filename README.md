@@ -82,3 +82,4 @@ More examples in [examples/](https://github.com/barsikus007/boosty/blob/master/e
 - build ci/cd
   - trigger on master push with tag
   - create dev branch
+- get rid of strange pydantic model init depends on env
