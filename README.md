@@ -78,3 +78,7 @@ More examples in [examples/](https://github.com/barsikus007/boosty/blob/master/e
   - replies
   - video
   - entities parsing
+- msgspec
+- build ci/cd
+  - trigger on master push with tag
+  - create dev branch

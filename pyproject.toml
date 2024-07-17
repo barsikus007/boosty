@@ -22,8 +22,8 @@ classifiers = [
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
 dependencies  = [
-    "pydantic[email]~=2.5.3",
-    "aiohttp~=3.9.1",
+    "pydantic[email]~=2.8.0",
+    "aiohttp~=3.9.0",
 ]
 dynamic = ["version"]
 
@@ -33,9 +33,9 @@ Issues = "https://github.com/barsikus007/boosty/issues"
 Source = "https://github.com/barsikus007/boosty"
 
 [project.optional-dependencies]
-dotenv = ["python-dotenv~=1.0.0"]
-fast = ["orjson~=3.9.10", "aiohttp[speedups]~=3.9.1"]
-all = ["boosty[dotenv,fast]"]
+browser = ["playwright~=1.40.0"]
+fast = ["orjson~=3.10.0", "aiohttp[speedups]~=3.9.0"]
+all = ["boosty[browser,fast]"]
 
 
 [tool.hatch.version]
