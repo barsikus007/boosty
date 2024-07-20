@@ -101,6 +101,10 @@ ignore = [
   "A003",  # cause schema have id fields
   "N815",  # cause schema in camelCase
 ]
+"boosty/utils/**.py" = [
+  "A003",  # cause schema have id fields
+  "N815",  # cause schema in camelCase
+]
 
 [tool.pylint]
 disable = [
