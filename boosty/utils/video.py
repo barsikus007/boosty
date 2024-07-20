@@ -8,6 +8,7 @@ from boosty.types import BaseObject
 from boosty.types.media_types import PlayerUrl, Video, player_urls_size_names
 from boosty.utils.json import json
 
+# fmt: off
 size_names = Literal[
     "ultra",   # 2160
     "quad",    # 1440
@@ -18,6 +19,7 @@ size_names = Literal[
     "lowest",  # 144
     "mobile",  # 144
 ]
+# fmt: on
 size_dict = {
     "ultra": 7,
     "quad": 6,
@@ -56,9 +58,9 @@ class VideoSize(BaseObject):
 
 
 async def get_video_sizes(
-        api: API,
-        name: str,
-        content: Video,
+    api: API,
+    name: str,
+    content: Video,
 ) -> list[PlayerUrl]:
     """
     :param api: API instance
@@ -67,24 +69,23 @@ async def get_video_sizes(
     :return: list of PlayerUrl, sorted by quality descending
     """
     player_html = await api.http_client.request_text(
-        str(content.url), headers={"User-Agent": api.auth.user_agent, "referer": f"https://boosty.to/{name}"})
+        str(content.url),
+        headers={"User-Agent": api.auth.auth_data.user_agent, "referer": f"https://boosty.to/{name}"},
+    )
     ind = player_html.find("data-options=")
     if ind == -1:
         raise ValueError("No data-options found in player script")
     do = ind + 14
-    video_data_raw = html.unescape(player_html[do:player_html.find('"', do)])
+    video_data_raw = html.unescape(player_html[do : player_html.find('"', do)])
     video_data = json.loads(video_data_raw)
 
     sizes_list = json.loads(video_data["flashvars"]["metadata"])["videos"]
     sizes_list = [VideoSize(**size) for size in sizes_list]
-    sizes_list = [
-        PlayerUrl(url=size.url, type=player_size_by_number[size_dict[size.name]])
-        for size in sizes_list]
-    return sizes_list
+    return [PlayerUrl(url=size.url, type=player_size_by_number[size_dict[size.name]]) for size in sizes_list]
 
 
 def sort_urls_by_quality(
-        player_urls: list[PlayerUrl],
+    player_urls: list[PlayerUrl],
 ) -> list[PlayerUrl]:
     """
     :param player_urls: list of PlayerUrl
@@ -94,9 +95,9 @@ def sort_urls_by_quality(
 
 
 async def select_max_size_url(
-        api: API,
-        player_urls: list[PlayerUrl],
-        size_limit: int,
+    api: API,
+    player_urls: list[PlayerUrl],
+    size_limit: int,
 ) -> tuple[PlayerUrl, str, int] | None:
     """
     :param api: API instance
@@ -111,5 +112,5 @@ async def select_max_size_url(
             raise ValueError("Video is too small, probably error code")
         if video_size <= size_limit:
             cd = headers["content-disposition"]
-            filename = cd[cd.find('"') + 1:cd.rfind('"')]
+            filename = cd[cd.find('"') + 1 : cd.rfind('"')]
             return PlayerUrl(url=player_url.url, type=player_url.type), filename, video_size

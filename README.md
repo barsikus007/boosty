@@ -63,23 +63,24 @@ More examples in [examples/](https://github.com/barsikus007/boosty/blob/master/e
 
 ### TODO for stable release
 
-- complete api schema
-  - add access levels logic for requests
-- minimal docs
-- useful properties for models
-- merge reply comment with comment model
-- add examples
+- schema
+  - complete api schema (at 100 stars)
+    - add access levels logic for requests
+  - more useful properties for models
+  - merge reply comment with comment model
+  - msgspec?
+- logic
+  - get rid of strange pydantic model init depends on env
+  - maybe better solution for auth data storage
+- docs/ (at 50 stars)
+- examples/
   - render text
   - get video url
   - get comment url
-- add tests
+- tests/
   - boosty profile
   - comments
   - replies
   - video
   - entities parsing
-- msgspec
-- build ci/cd
-  - trigger on master push with tag
-  - create dev branch
-- get rid of strange pydantic model init depends on env
+- create dev branch

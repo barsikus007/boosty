@@ -71,8 +71,8 @@ class API:
         self,
         name: str,
         *,
-        limit: Annotated[int, Field(strict=True, ge=1)] | None = None,  # limit is based on data amount ~300
-        offset: str | None = None,  # "1654884900:923396"
+        limit: Annotated[int, Field(strict=True, ge=1, description="based on data amount (100 default)")] | None = None,
+        offset: Annotated[str, Field(description="timestamp:idk,id?")] | None = None,
         comments_limit: Annotated[int, Field(strict=True, ge=0)] | None = None,
         reply_limit: int | None = None,  # idk ~1
     ) -> PostsResponse:

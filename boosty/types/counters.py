@@ -1,5 +1,6 @@
 from .base import BaseObject
 
+
 class Counter(BaseObject):
     type: str
     """Type of content in post. """

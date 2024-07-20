@@ -149,4 +149,4 @@ class TeaserAutoBackgroundImage(FileBase):
     rendition: Literal["teaser_auto_background"]
     width: int | None = None
     height: int | None = None
-    size: int
+    size: int | None = None

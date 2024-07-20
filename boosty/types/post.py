@@ -5,13 +5,13 @@ from pydantic import UUID4, HttpUrl
 from boosty.types.base import BaseObject
 from boosty.types.comment import CommentsResponse
 from boosty.types.content import Content
+from boosty.types.counters import Counter
 from boosty.types.donator import DonatorsResponse
 from boosty.types.poll import Poll
 from boosty.types.reactions import Reactions
 from boosty.types.teaser import TeaserContent
 from boosty.types.users import BlogUser
 from boosty.utils.post import Entity, render_text
-from boosty.types.counters import Counter
 
 
 class Currency(BaseObject):
@@ -116,7 +116,6 @@ class Post(BaseObject):
     """TODO"""
     showViewsCounter: bool | None = None
     """TODO"""
-
 
     @property
     def url(self) -> HttpUrl:
