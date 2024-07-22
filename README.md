@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/barsikus007/boosty">
-    <img src="https://raw.githubusercontent.com/barsikus007/boosty/master/logo.png" alt="BoostyPy">
+    <img src="https://raw.githubusercontent.com/barsikus007/boosty/master/logo.svg" alt="BoostyPy">
   </a>
 </p>
 
@@ -69,6 +69,7 @@ More examples in [examples/](https://github.com/barsikus007/boosty/blob/master/e
   - more useful properties for models
   - merge reply comment with comment model
   - msgspec?
+  - rename folder types/ to schema/
 - logic
   - get rid of strange pydantic model init depends on env
   - maybe better solution for auth data storage

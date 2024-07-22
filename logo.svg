@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1"
+    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Blocks/Header_Unlogged" transform="translate(-15.000000, -15.000000)">
+            <g id="icons/boosty_logo" transform="translate(15.000000, 15.000000)">
+                <g id="Shape">
+                    <path
+                        d="M1.038 23.892 7.815 0h10.4l-2.103 7.407a1 1 0 0 0-.054.134L10.536 27.1h5.154A8850 8850 0 0 0 10.635 40c-9.507-.108-12.174-7.052-9.84-15.268zM10.673 40l12.535-18.4H17.89l4.627-11.786c7.942.846 11.665 7.215 9.476 14.916C29.643 33.016 20.13 40 10.866 40z"
+                        fill="#FFDE65" fill-rule="nonzero" />
+                    <path
+                        d="M1.038 23.892 7.815 0h10.4l-2.103 7.407a1 1 0 0 0-.054.134L10.536 27.1h5.154A8850 8850 0 0 0 10.635 40c-9.507-.108-12.174-7.052-9.84-15.268zM10.673"
+                        fill="#1B6F9B" fill-rule="nonzero" />
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
