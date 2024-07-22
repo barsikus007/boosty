@@ -97,6 +97,9 @@ ignore = [
 ]
 
 [tool.ruff.lint.per-file-ignores]
+"tests/**.py" = [
+  "S101",  # allow asserts
+]
 "boosty/types/**.py" = [
   "A003",  # cause schema have id fields
   "N815",  # cause schema in camelCase

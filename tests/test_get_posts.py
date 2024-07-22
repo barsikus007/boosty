@@ -1,4 +1,3 @@
-# ruff: noqa: S101
 import pytest
 
 from boosty.api import API

@@ -12,6 +12,8 @@
 
 -----
 
+[Описание на русском](README-ru.md)
+
 **Table of Contents**
 
 - [Installation](#installation)
@@ -37,7 +39,7 @@ pip install boosty
 
 *Optional:* specify `IGNORE_MISSING_AND_EXTRA_FIELDS` environment variable to disable strict schema validation
 
-*Optional:* fill `auth.json` file with authentication data:
+*Optional:* fill `auth.json` file with authentication data (or use [browser auth](examples/browser_auth.py) to create them):
 
 ```json
 {
@@ -80,8 +82,10 @@ More examples in [examples/](https://github.com/barsikus007/boosty/blob/master/e
   - get comment url
 - tests/
   - boosty profile
+  - test posts under my account
   - comments
   - replies
   - video
   - entities parsing
 - create dev branch
+- readme ru
