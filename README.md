@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/barsikus007/boosty">
-    <img src="https://raw.githubusercontent.com/barsikus007/boosty/master/logo.svg" alt="BoostyPy">
+    <img src="https://raw.githubusercontent.com/barsikus007/boosty/master/logo.svg" alt="BoostyPy" height="250px">
   </a>
 </p>
 
