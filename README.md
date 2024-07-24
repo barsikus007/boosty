@@ -12,7 +12,7 @@
 
 -----
 
-[Описание на русском](README-ru.md)
+**[Описание на русском](README-ru.md)**
 
 **Table of Contents**
 

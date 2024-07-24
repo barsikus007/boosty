@@ -46,7 +46,7 @@ class API:
 
         if response.status == 401:
             logger.warning("AUTH EXPIRED, REFRESHING VIA REFRESH_TOKEN...")
-            await self.auth.refresh_auth_data(self.http_client, self.API_URL)
+            await self.auth.refresh_auth_data(self.http_client, API_URL)
             return await self.request(method, path, params, data)
 
         try:
