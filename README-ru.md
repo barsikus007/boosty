@@ -12,7 +12,7 @@
 
 -----
 
-**[English description](README.md)**
+**[English description](https://github.com/barsikus007/boosty/blob/master/README.md)**
 
 **Содержание**
 
@@ -61,4 +61,4 @@ print(response.title)
 # 'Добро пожаловать на борт!'
 ```
 
-Больше примеров в папке [examples/](https://github.com/barsikus007/boosty/blob/master/examples/)
+Больше примеров в папке [examples/](https://github.com/barsikus007/boosty/tree/master/examples/)

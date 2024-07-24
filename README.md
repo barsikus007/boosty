@@ -12,7 +12,7 @@
 
 -----
 
-**[Описание на русском](README-ru.md)**
+**[Описание на русском](https://github.com/barsikus007/boosty/blob/master/README-ru.md)**
 
 **Table of Contents**
 
@@ -39,7 +39,7 @@ pip install boosty
 
 *Optional:* specify `IGNORE_MISSING_AND_EXTRA_FIELDS` environment variable to disable strict schema validation
 
-*Optional:* fill `auth.json` file with authentication data (or use [browser auth](examples/browser_auth.py) to create them):
+*Optional:* fill `auth.json` file with authentication data (or use [browser auth](https://github.com/barsikus007/boosty/blob/master/examples/browser_auth.py) to create them):
 
 ```json
 {
@@ -61,7 +61,7 @@ print(response.title)
 # 'Добро пожаловать на борт!'
 ```
 
-More examples in [examples/](https://github.com/barsikus007/boosty/blob/master/examples/) folder
+More examples in [examples/](https://github.com/barsikus007/boosty/tree/master/examples/) folder
 
 ### TODO for stable release
 
