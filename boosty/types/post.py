@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import TYPE_CHECKING
 
 from pydantic import UUID4, HttpUrl
 
@@ -12,6 +13,9 @@ from boosty.types.reactions import Reactions
 from boosty.types.teaser import TeaserContent
 from boosty.types.users import BlogUser
 from boosty.utils.post import Entity, render_text
+
+if TYPE_CHECKING:
+    from boosty.api.api import API
 
 
 class Currency(BaseObject):
@@ -94,7 +98,7 @@ class Post(BaseObject):
     """Subscription level for non-free posts"""
 
     poll: Poll | None = None
-    advertiserInfo: None
+    advertiserInfo: str | None = None
     reacted: React | None = None
     """Unknown"""
     isWaitingVideo: bool
@@ -125,6 +129,18 @@ class Post(BaseObject):
     def text(self) -> tuple[str, list[Entity]]:
         return render_text(self.data)
 
+    async def get_comments(
+        self,
+        boosty_api: "API",
+        offset: str | None = None,
+        limit: int | None = None,
+        reply_limit: int | None = None,
+        order: str | None = None,
+    ) -> CommentsResponse:
+        return await boosty_api.get_post_comments(
+            self.user.blogUrl, self.id, offset=offset, limit=limit, reply_limit=reply_limit, order=order
+        )
+
 
 class PostsResponseExtra(BaseObject):
     isLast: bool
@@ -136,3 +152,26 @@ class PostsResponseExtra(BaseObject):
 class PostsResponse(BaseObject):
     data: list[Post]
     extra: PostsResponseExtra
+
+
+class EditedPost(BaseObject):
+    title: str = ""
+    """Post title"""
+    data: list[Content]
+    """List of contents, attached to post (text included)"""
+    price: int = 300
+    """Price to open post"""
+    teaser_data: list[TeaserContent]  # TODO [] as mutable default if needed
+    """Post teaser for users which haven't access to post"""
+    tags: str = ""
+    deny_comments: bool = False
+    wait_video: bool = False
+    """TODO"""
+    publish_time: int | None = None
+    """Timestamp to publish post. If None - post will be published immediately"""
+    advertiser_info: str
+
+
+class NewPost(EditedPost):
+    has_chat: bool = False
+    """TODO"""

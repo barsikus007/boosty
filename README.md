@@ -65,6 +65,8 @@ More examples in [examples/](https://github.com/barsikus007/boosty/tree/master/e
 
 ### TODO for stable release
 
+- convert timestamps to datetime
+  - serialize it to int when dumping
 - schema
   - complete api schema (at 100 stars)
     - add access levels logic for requests
@@ -88,4 +90,3 @@ More examples in [examples/](https://github.com/barsikus007/boosty/tree/master/e
   - video
   - entities parsing
 - create dev branch
-- readme ru

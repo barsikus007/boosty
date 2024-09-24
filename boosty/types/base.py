@@ -1,5 +1,5 @@
 import os
-from typing import get_args
+from typing import Any, get_args
 
 from pydantic import BaseModel, ConfigDict, model_validator
 
@@ -34,7 +34,9 @@ class BaseObjectStrict(BaseModel):
 class BaseObjectIgnore(BaseModel):
     @model_validator(mode="before")
     @classmethod
-    def _ignore_field_without_value(cls, values: dict) -> dict:
+    def _ignore_field_without_value(cls, values: Any) -> dict:
+        if not isinstance(values, dict):
+            return values
         for field in cls.model_fields.items():
             if field[0] not in values and field[1].is_required():
                 values.setdefault(field[0], default_value_resolver(cls.model_fields[field[0]].annotation))
