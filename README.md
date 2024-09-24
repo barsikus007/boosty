@@ -53,12 +53,17 @@ pip install boosty
 Example:
 
 ```python
+import asyncio
+
 from boosty.api import API
 
-api = API()
-response = await api.get_post("boosty", post_id="c9fb8a19-c45e-4602-9942-087c3af28c1b")
-print(response.title)
-# 'Добро пожаловать на борт!'
+async def main():
+    api = API()
+    response = await api.get_post("boosty", post_id="c9fb8a19-c45e-4602-9942-087c3af28c1b")
+    print(response.title)
+    # 'Добро пожаловать на борт!'
+
+asyncio.run(main())
 ```
 
 More examples in [examples/](https://github.com/barsikus007/boosty/tree/master/examples/) folder

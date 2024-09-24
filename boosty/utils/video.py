@@ -6,7 +6,6 @@ from pydantic import HttpUrl
 from boosty.api import API
 from boosty.types import BaseObject
 from boosty.types.media_types import PlayerUrl, Video, player_urls_size_names
-from boosty.utils.json import json
 
 # fmt: off
 size_names = Literal[
