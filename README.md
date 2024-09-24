@@ -65,6 +65,7 @@ More examples in [examples/](https://github.com/barsikus007/boosty/tree/master/e
 
 ### TODO for stable release
 
+- inject additional data to models from requests
 - convert timestamps to datetime
   - serialize it to int when dumping
 - schema

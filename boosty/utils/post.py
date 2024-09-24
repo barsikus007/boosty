@@ -1,3 +1,4 @@
+import json
 import re
 from collections.abc import Sequence
 from struct import unpack
@@ -7,7 +8,6 @@ from pydantic import BaseModel, HttpUrl
 
 from boosty.types.base import ignore_missing_and_extra_fields
 from boosty.types.media_types import Link, Text
-from boosty.utils.json import json
 
 if TYPE_CHECKING:
     from boosty.types import Content, Post

@@ -1,7 +1,7 @@
+import json
 from pathlib import Path
 
 from boosty.api.auth.resolvers.abc import ABCAuthDataResolver, AuthData
-from boosty.utils.json import dict_to_file, file_to_dict
 from boosty.utils.logging import logger
 from boosty.utils.types import StrPath
 
@@ -16,7 +16,7 @@ class FileAuthDataResolver(ABCAuthDataResolver):
 
     def load_auth_data(self):
         try:
-            auth_dict = file_to_dict(self.auth_file)
+            auth_dict = json.loads(self.auth_file.read_bytes())
         except FileNotFoundError:
             logger.info(f"Auth file ({self.auth_file}) wasn't found, using blank values (anonymous access mode)")
             auth_dict = {}
@@ -27,4 +27,4 @@ class FileAuthDataResolver(ABCAuthDataResolver):
     def save_auth_data(self):
         if self.auth_data.anonymous:
             return
-        dict_to_file(self.auth_data.to_dict(), self.auth_file)
+        self.auth_file.write_bytes(json.dumps(self.auth_data.to_dict()).encode())
