@@ -4,7 +4,6 @@ from pydantic import UUID4, HttpUrl
 
 from .base import BaseObject
 
-# fmt: off
 player_urls_size_names = Literal[
     "ultra_hd",  # 2160
     "quad_hd",   # 1440
@@ -25,8 +24,7 @@ player_urls_size_names = Literal[
 
     "live_ondemand_hls",   # TODO idk
     "live_cmaf",           # TODO idk
-]
-# fmt: on
+]  # fmt: skip
 
 
 class PlayerUrl(BaseObject):

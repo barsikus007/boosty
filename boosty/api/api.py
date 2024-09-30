@@ -58,10 +58,16 @@ class API:
                 encoding="utf-8",
                 content_type=None,
             )
-        except ValueError:
-            response_json = {}
+        except ValueError as e:
+            raise BoostyError(
+                Error(
+                    status_code=response.status,
+                    error="Json decode error",
+                    error_description=await response.text(),
+                ),
+            ) from e
 
-        if response.status // 100 != 2:
+        if not response.ok:
             raise BoostyError(
                 Error(
                     status_code=response.status,

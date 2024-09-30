@@ -7,7 +7,6 @@ from boosty.api import API
 from boosty.types import BaseObject
 from boosty.types.media_types import PlayerUrl, Video, player_urls_size_names
 
-# fmt: off
 size_names = Literal[
     "ultra",   # 2160
     "quad",    # 1440
@@ -17,8 +16,7 @@ size_names = Literal[
     "low",     # 360
     "lowest",  # 144
     "mobile",  # 144
-]
-# fmt: on
+]  # fmt: skip
 size_dict = {
     "ultra": 7,
     "quad": 6,
