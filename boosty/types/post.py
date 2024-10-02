@@ -46,6 +46,8 @@ class SubscriptionLevel(BaseObject):
     currencyPrices: Currency
 
     promos: dict | list  # TODO
+    isHidden: bool
+    isLimited: bool
 
 
 class React(BaseObject):

@@ -39,6 +39,13 @@ pip install boosty
 
 *Необязательно:* укажите переменную среды `IGNORE_MISSING_AND_EXTRA_FIELDS` чтобы отключить строгую проверку схемы
 
+```py
+# или пропишите эти строки перед первым импортом boosty
+import os
+
+os.environ["IGNORE_MISSING_AND_EXTRA_FIELDS"] = "true"
+```
+
 *Необязательно:* заполните файл `auth.json` данными аутентификации (или используйте [браузерную аутентификацию](https://github.com/barsikus007/boosty/blob/master/examples/browser_auth.py) чтобы их создать):
 
 ```json

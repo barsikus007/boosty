@@ -39,6 +39,13 @@ pip install boosty
 
 *Optional:* specify `IGNORE_MISSING_AND_EXTRA_FIELDS` environment variable to disable strict schema validation
 
+```py
+# or add these lines before first boosty import
+import os
+
+os.environ["IGNORE_MISSING_AND_EXTRA_FIELDS"] = "true"
+```
+
 *Optional:* fill `auth.json` file with authentication data (or use [browser auth](https://github.com/barsikus007/boosty/blob/master/examples/browser_auth.py) to create them):
 
 ```json
