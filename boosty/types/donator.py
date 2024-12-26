@@ -13,6 +13,7 @@ class Donator(BaseObject):
     amount: float
 
     type: str  # TODO
+    isFeePaid: bool  # TODO
 
 
 class DonatorsResponseExtra(BaseObject):

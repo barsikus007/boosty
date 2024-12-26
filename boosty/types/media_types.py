@@ -94,7 +94,7 @@ class Audio(FileBase):
     uploadStatus: str  # TODO could be "ok" or other
     isMigrated: bool
 
-    fileType: Literal["MP3"] | None = None
+    fileType: Literal["MP3", "WAV"] | None = None
 
     timeCode: int | None = None  # TODO
     viewsCounter: int | None = None  # TODO
@@ -132,6 +132,7 @@ class Video(FileBase):
     viewsCounter: int | None = None  # TODO
     showViewsCounter: bool | None = None  # TODO
     uploadStatus: str | None = None  # TODO could be "ok" or other
+    status: str  # TODO could be "ok" or other
 
 
 class Image(FileBase):

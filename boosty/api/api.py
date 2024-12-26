@@ -60,12 +60,20 @@ class API:
             )
         except ValueError as e:
             text = await response.text(errors="replace")
+            if text.startswith("<html>\r\n<head><title>502 Bad Gateway</title></head>"):
+                raise BoostyError(
+                    Error(
+                        status_code=response.status,
+                        error="HTTPBadGateway",
+                        error_description="Nginx 502 Bad Gateway",
+                    ),
+                ) from e
             if text.startswith("<html>\r\n<head><title>504 Gateway Time-out</title></head>"):
                 raise BoostyError(
                     Error(
                         status_code=response.status,
-                        error="Gateway timeout",
-                        error_description="Nginx gateway timeout",
+                        error="HTTPGatewayTimeout",
+                        error_description="Nginx 504 Gateway Time-out",
                     ),
                 ) from e
             raise BoostyError(

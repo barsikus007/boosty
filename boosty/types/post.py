@@ -104,7 +104,7 @@ class Post(BaseObject):
     reacted: React | None = None
     """Unknown"""
     isWaitingVideo: bool
-    """Unknown, probably an indicator, which shows if video is incomplete"""
+    """Unknown, probably an indicator, which shows if video is processing"""
     currencyPrices: Currency
     """Unknown"""
     isRecord: bool
@@ -121,6 +121,10 @@ class Post(BaseObject):
     isDeleted: bool
     """TODO"""
     showViewsCounter: bool | None = None
+    """TODO"""
+    isPinned: bool
+    """TODO"""
+    sortOrder: int
     """TODO"""
 
     @property
