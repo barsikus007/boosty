@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import json as json_module
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, NotRequired, Self, TypedDict, Unpack
 
 from aiohttp import ClientSession
 
@@ -20,8 +20,10 @@ class ABCHTTPClient(ABC):
     Documentation: https://vkbottle.rtfd.io/ru/latest/low-level/http-client
     """
 
+    json_processing_module: Any
+
     @abstractmethod
-    def __init__(self, *args, **kwargs) -> None:
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         pass
 
     @abstractmethod
@@ -30,7 +32,7 @@ class ABCHTTPClient(ABC):
         url: str,
         method: str = "GET",
         data: dict | None = None,
-        **kwargs,
+        **kwargs: Any,
     ) -> Any:
         pass
 
@@ -40,7 +42,7 @@ class ABCHTTPClient(ABC):
         url: str,
         method: str = "GET",
         data: dict | None = None,
-        **kwargs,
+        **kwargs: Any,
     ) -> str:
         pass
 
@@ -50,7 +52,7 @@ class ABCHTTPClient(ABC):
         url: str,
         method: str = "GET",
         data: dict | None = None,
-        **kwargs,
+        **kwargs: Any,
     ) -> dict:
         pass
 
@@ -60,7 +62,7 @@ class ABCHTTPClient(ABC):
         url: str,
         method: str = "GET",
         data: dict | None = None,
-        **kwargs,
+        **kwargs: Any,
     ) -> bytes:
         pass
 
@@ -69,7 +71,7 @@ class ABCHTTPClient(ABC):
         self,
         url: str,
         data: dict | None = None,
-        **kwargs,
+        **kwargs: Any,
     ) -> Mapping[str, str]:
         pass
 
@@ -77,7 +79,7 @@ class ABCHTTPClient(ABC):
     async def close(self) -> None:
         pass
 
-    async def __aenter__(self) -> ABCHTTPClient:
+    async def __aenter__(self) -> Self:
         return self
 
     async def __aexit__(
@@ -89,13 +91,19 @@ class ABCHTTPClient(ABC):
         await self.close()
 
 
+class SessionParams(TypedDict):
+    skip_auto_headers: NotRequired[set[str]]
+    raise_for_status: NotRequired[bool]
+
+
 class AiohttpClient(ABCHTTPClient):
     def __init__(
         self,
         session: ClientSession | None = None,
         json_processing_module: Any | None = None,
+        *,
         optimize: bool = False,
-        **session_params,
+        **session_params: Unpack[SessionParams],
     ) -> None:
         json_serialize = session_params.pop("json_serialize", None)
         self.json_processing_module = json_processing_module or json_serialize or json_module
@@ -113,7 +121,7 @@ class AiohttpClient(ABCHTTPClient):
         url: str,
         method: str = "GET",
         data: dict | None = None,
-        **kwargs,
+        **kwargs: Any,
     ) -> ClientResponse:
         if not self.session:
             self.session = ClientSession(  # type: ignore[misc]
@@ -129,7 +137,7 @@ class AiohttpClient(ABCHTTPClient):
         url: str,
         method: str = "GET",
         data: dict | None = None,
-        **kwargs,
+        **kwargs: Any,
     ) -> dict:
         response = await self.request_raw(url, method, data, **kwargs)
         return await response.json(
@@ -143,7 +151,7 @@ class AiohttpClient(ABCHTTPClient):
         url: str,
         method: str = "GET",
         data: dict | None = None,
-        **kwargs,
+        **kwargs: Any,
     ) -> str:
         response = await self.request_raw(url, method, data, **kwargs)
         return await response.text(encoding="utf-8")
@@ -153,16 +161,16 @@ class AiohttpClient(ABCHTTPClient):
         url: str,
         method: str = "GET",
         data: dict | None = None,
-        **kwargs,
+        **kwargs: Any,
     ) -> bytes:
         response = await self.request_raw(url, method, data, **kwargs)
-        return response._body
+        return await response.read()
 
     async def request_headers(  # type: ignore[override]
         self,
         url: str,
         data: dict | None = None,
-        **kwargs,
+        **kwargs: Any,
     ) -> CIMultiDictProxy[str]:
         if not self.session:
             self.session = ClientSession(
@@ -193,7 +201,7 @@ class AiohttpClient(ABCHTTPClient):
 class SingleAiohttpClient(AiohttpClient):
     __instance__ = None
 
-    def __call__(cls, *args, **kwargs):  # noqa: N805
-        if cls.__instance__ is None:
-            cls.__instance__ = super().__call__(*args, **kwargs)
-        return cls.__instance__
+    def __call__(self, *args: Any, **kwargs: Any):
+        if self.__instance__ is None:
+            self.__instance__ = super().__call__(*args, **kwargs)
+        return self.__instance__

@@ -1,8 +1,9 @@
+from enum import IntEnum
 from typing import Literal
 
 from pydantic import UUID4, HttpUrl
 
-from .base import BaseObject
+from boosty.types.base import BaseObject
 
 player_urls_size_names = Literal[
     "ultra_hd",  # 2160
@@ -21,7 +22,6 @@ player_urls_size_names = Literal[
     "live_dash",           # TODO idk
     "live_playback_hls",   # TODO idk
     "live_playback_dash",  # TODO idk
-
     "live_ondemand_hls",   # TODO idk
     "live_cmaf",           # TODO idk
 ]  # fmt: skip
@@ -64,7 +64,7 @@ class LinkToVideo(BaseObject):
 
 class FileBase(BaseObject):
     id: UUID4
-    url: HttpUrl
+    url: HttpUrl | Literal[""]
 
 
 class File(FileBase):
@@ -103,8 +103,6 @@ class Audio(FileBase):
 
 class Video(FileBase):
     type: Literal["ok_video"]
-    url: HttpUrl | Literal[""]
-    """Could be '' due to boosty moment"""
     complete: bool
     """Unknown, probably True if video completely processed (could be False if Post.isRecord)"""
     title: str
@@ -149,3 +147,9 @@ class TeaserAutoBackgroundImage(FileBase):
     width: int | None = None
     height: int | None = None
     size: int | None = None
+
+
+class TextFormatEnum(IntEnum):
+    bold = 0
+    italic = 2
+    underline = 4

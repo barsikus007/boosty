@@ -108,6 +108,10 @@ ignore = [
   "A003",  # cause schema have id fields
   "N815",  # cause schema in camelCase
 ]
+"examples/**.py" = [
+  "INP001",
+  "T201",
+]
 
 [tool.pylint]
 disable = [

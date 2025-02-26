@@ -3,9 +3,9 @@ from typing import Literal
 
 from pydantic import UUID4
 
-from .base import BaseObject
-from .reactions import Reacted, Reactions
-from .users import Commentator
+from boosty.types.base import BaseObject
+from boosty.types.reactions import Reacted, Reactions
+from boosty.types.users import Commentator
 
 
 class Reply(BaseObject):

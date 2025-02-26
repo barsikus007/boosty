@@ -1,11 +1,13 @@
 # ruff: noqa: PLR0913
+from http import HTTPStatus
 from typing import Annotated, Literal
 
 from pydantic import UUID4, BaseModel, Field
 
 from boosty.api.auth import Auth
-from boosty.types import CommentsResponse, Post, PostsResponse
+from boosty.types import Post, PostsResponse
 from boosty.types.blacklist import BlacklistResponse
+from boosty.types.comment import CommentsResponse
 from boosty.types.deferred_access import DeferredAccess, DeferredAccessResponse, EditedDeferredAccess
 from boosty.types.post import EditedPost, NewPost
 from boosty.utils.client import ABCHTTPClient, SingleAiohttpClient
@@ -48,7 +50,7 @@ class API:
             headers=self.auth.headers,
         )
 
-        if response.status == 401:
+        if response.status == HTTPStatus.UNAUTHORIZED:
             logger.warning("AUTH EXPIRED, REFRESHING VIA REFRESH_TOKEN...")
             await self.auth.refresh_auth_data(self.http_client, API_URL)
             return await self.request(method, path, params, data)

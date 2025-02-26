@@ -1,7 +1,7 @@
 from typing import Literal
 
-from .base import BaseObject
-from .users import Voter
+from boosty.types.base import BaseObject
+from boosty.types.users import Voter
 
 
 class VotersResponseExtra(BaseObject):

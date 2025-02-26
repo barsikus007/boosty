@@ -1,4 +1,5 @@
 import html
+import json
 from typing import Literal
 
 from pydantic import HttpUrl
@@ -27,7 +28,7 @@ size_dict = {
     "lowest": 0,
     "mobile": -1,  # 4
 }
-player_size_dict = {
+player_size_dict: dict[player_urls_size_names, int] = {
     "ultra_hd": 7,
     "quad_hd": 6,
     "full_hd": 5,
@@ -44,8 +45,8 @@ player_size_dict = {
     "live_dash": -8,
     "live_hls": -9,
 }
-player_size_by_number: dict[int, player_urls_size_names] = {v: k for k, v in player_size_dict.items()}  # type: ignore
-
+player_size_by_number: dict[int, player_urls_size_names] = {v: k for k, v in player_size_dict.items()}
+minimum_video_size = 228
 
 class VideoSize(BaseObject):
     name: size_names
@@ -105,7 +106,7 @@ async def select_max_size_url(
     for player_url in sort_urls_by_quality(player_urls):
         headers = await api.http_client.request_headers(str(player_url.url), headers=api.auth.headers)
         video_size = int(headers["content-length"])
-        if video_size < 228:
+        if video_size < minimum_video_size:
             raise ValueError("Video is too small, probably error code")
         if video_size <= size_limit:
             cd = headers["content-disposition"]

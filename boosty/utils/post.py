@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING
 from pydantic import BaseModel, HttpUrl
 
 from boosty.types.base import ignore_missing_and_extra_fields
-from boosty.types.media_types import Link, Text
+from boosty.types.media_types import Link, Text, TextFormatEnum
 
 if TYPE_CHECKING:
     from boosty.types import Content, Post
@@ -62,14 +62,14 @@ def render_text(
             if isinstance(content, Text) and not ignore_missing_and_extra_fields:
                 if content.modificator not in ["", "BLOCK_END"]:
                     raise ValueError(
-                        f"TEXT PARSER ERROR\n"
-                        f"content.modificator not in ['', 'BLOCK_END']\n"
+                        "TEXT PARSER ERROR\n"
+                        "content.modificator not in ['', 'BLOCK_END']\n"
                         f"{content}",
                     )
                 if content.modificator == "BLOCK_END" and len(content.content):
                     raise ValueError(
-                        f"TEXT PARSER ERROR\n"
-                        f"content.modificator == 'BLOCK_END' with content!\n"
+                        "TEXT PARSER ERROR\n"
+                        "content.modificator == 'BLOCK_END' with content!\n"
                         f"{content}",
                     )
             if len(content.content) == 0:
@@ -90,25 +90,21 @@ def render_text(
             if raw_entities:
                 if not ignore_missing_and_extra_fields and raw_unstyled != "unstyled":
                     raise ValueError(
-                        f"TEXT PARSER ERROR\n"
-                        f"raw_unstyled != 'unstyled'\n"
+                        "TEXT PARSER ERROR\n"
+                        "raw_unstyled != 'unstyled'\n"
                         f"{raw_text, raw_unstyled, raw_entities =}",
                     )
                 for format_list in raw_entities:
                     format_type, offset, length = format_list
-                    if format_type == 0:
-                        entity_type = "bold"
-                    elif format_type == 2:
-                        entity_type = "italic"
-                    elif format_type == 4:
-                        entity_type = "underline"
-                    elif format_type is None:
+                    if format_type is None:
                         continue  # TODO unknown format in comments [None, 64, 0]
-                    else:
+                    try:
+                        entity_type = TextFormatEnum(format_type).name
+                    except ValueError:
                         if not ignore_missing_and_extra_fields:
                             raise ValueError(
-                                f"TEXT PARSER ERROR\n"
-                                f"Unknown style\n"
+                                "TEXT PARSER ERROR\n"
+                                "Unknown style\n"
                                 f"{raw_text, raw_unstyled, raw_entities =}",
                             )
                         continue

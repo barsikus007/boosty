@@ -2,7 +2,7 @@ from typing import Annotated, Literal
 
 from pydantic import EmailStr, Field, HttpUrl
 
-from .base import BaseObject
+from boosty.types.base import BaseObject
 
 
 class BaseUser(BaseObject):
