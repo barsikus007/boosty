@@ -199,9 +199,9 @@ class AiohttpClient(ABCHTTPClient):
 
 
 class SingleAiohttpClient(AiohttpClient):
-    __instance__ = None
+    _instance = None
 
-    def __call__(self, *args: Any, **kwargs: Any):
-        if self.__instance__ is None:
-            self.__instance__ = super().__call__(*args, **kwargs)
-        return self.__instance__
+    def __new__(cls, *args: Any, **kwargs: Any):
+        if not cls._instance:
+            cls._instance = super().__new__(cls, *args, **kwargs)
+        return cls._instance
