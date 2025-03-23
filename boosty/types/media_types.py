@@ -73,7 +73,7 @@ class File(FileBase):
     title: str
     size: int
 
-    isMigrated: bool
+    isMigrated: bool | None = None
 
 
 class Audio(FileBase):
@@ -91,8 +91,8 @@ class Audio(FileBase):
     track: str | None = None
     """Track Name from MP3 ID3 Tag"""
 
-    uploadStatus: str  # TODO could be "ok" or other
-    isMigrated: bool
+    uploadStatus: str | None = None # TODO could be "ok" or other
+    isMigrated: bool | None = None
 
     fileType: Literal["MP3", "WAV"] | None = None
 
