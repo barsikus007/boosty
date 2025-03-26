@@ -5,11 +5,10 @@ from typing import Annotated, Literal
 from pydantic import UUID4, BaseModel, Field
 
 from boosty.api.auth import Auth
-from boosty.types import Post, PostsResponse
 from boosty.types.blacklist import BlacklistResponse
 from boosty.types.comment import CommentsResponse
 from boosty.types.deferred_access import DeferredAccess, DeferredAccessResponse, EditedDeferredAccess
-from boosty.types.post import EditedPost, NewPost
+from boosty.types.post import EditedPost, NewPost, Post, PostsResponse
 from boosty.utils.client import ABCHTTPClient, SingleAiohttpClient
 from boosty.utils.consts import API_URL
 from boosty.utils.logging import logger

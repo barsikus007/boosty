@@ -106,7 +106,7 @@ def render_text(
                                 "TEXT PARSER ERROR\n"
                                 "Unknown style\n"
                                 f"{raw_text, raw_unstyled, raw_entities =}",
-                            )
+                            ) from None
                         continue
                     new_offset = len(add_surrogates(text.lstrip())) + offset
                     if len(text.lstrip()) == 0:

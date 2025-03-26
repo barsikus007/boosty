@@ -94,6 +94,7 @@ ignore = [
   "RET502",  # for return without None
   "RET503",  # for function without return
   "RUF001",  # for cyrillic
+  "EM102",   # ignore f-string literal in exceptions
 ]
 
 [tool.ruff.lint.per-file-ignores]
