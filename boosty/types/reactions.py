@@ -1,6 +1,6 @@
 from typing import Literal
 
-from .base import BaseObject
+from boosty.types.base import BaseObject
 
 reaction_names = Literal[
     "heart",

@@ -3,13 +3,12 @@ from typing import Annotated, Literal
 
 from pydantic import UUID4, Field
 
+from boosty.types.base import BaseObject
+from boosty.types.media_types import Image, Link, Smile, Text
+from boosty.types.reactions import Reacted, Reactions
+from boosty.types.reply import RepliesResponse
+from boosty.types.users import Commentator
 from boosty.utils.post import Entity, render_text
-
-from .base import BaseObject
-from .media_types import Image, Link, Smile, Text
-from .reactions import Reacted, Reactions
-from .reply import RepliesResponse
-from .users import Commentator
 
 CommentContent = Annotated[
     Text | Smile | Image | Link,

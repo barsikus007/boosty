@@ -1,4 +1,4 @@
-from .base import BaseObject
+from boosty.types.base import BaseObject
 
 
 class Counter(BaseObject):

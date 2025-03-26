@@ -2,7 +2,7 @@ from typing import Annotated
 
 from pydantic import Field
 
-from .media_types import Image, Link, TeaserAutoBackgroundImage, Text
+from boosty.types.media_types import Image, Link, TeaserAutoBackgroundImage, Text
 
 ImageTeaser = Annotated[TeaserAutoBackgroundImage | Image, Field(discriminator="rendition")]
 

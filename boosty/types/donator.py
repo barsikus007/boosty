@@ -1,7 +1,7 @@
 from datetime import datetime
 
-from .base import BaseObject
-from .users import DonatorUser
+from boosty.types.base import BaseObject
+from boosty.types.users import DonatorUser
 
 
 class Donator(BaseObject):
