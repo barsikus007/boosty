@@ -9,6 +9,7 @@ from boosty.types.content import Content
 from boosty.types.counters import Counter
 from boosty.types.donator import DonatorsResponse
 from boosty.types.poll import Poll
+from boosty.types.reaction_counters import ReactionCounters
 from boosty.types.reactions import Reactions
 from boosty.types.teaser import TeaserContent
 from boosty.types.users import BlogUser
@@ -125,6 +126,11 @@ class Post(BaseObject):
     isPinned: bool
     """TODO"""
     sortOrder: int
+    """TODO"""
+
+    reactionsDisabled: bool
+    """TODO"""
+    reactionCounters: list[ReactionCounters]
     """TODO"""
 
     @property
