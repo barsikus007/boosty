@@ -3,9 +3,10 @@ from __future__ import annotations
 
 import json as json_module
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING, Any, NotRequired, Self, TypedDict, Unpack
+from typing import TYPE_CHECKING, Any, TypedDict
 
 from aiohttp import ClientSession
+from typing_extensions import NotRequired, Self, Unpack
 
 if TYPE_CHECKING:
     from collections.abc import Mapping
