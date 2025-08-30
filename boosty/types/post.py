@@ -5,6 +5,7 @@ from pydantic import UUID4, HttpUrl
 
 from boosty.types.base import BaseObject
 from boosty.types.comment import CommentsResponse
+from boosty.types.common import PostCommon
 from boosty.types.content import Content
 from boosty.types.counters import Counter
 from boosty.types.donator import DonatorsResponse
@@ -62,23 +63,20 @@ class Count(BaseObject):
     views: int | None = None
 
 
-class Post(BaseObject):
-    id: UUID4
-    createdAt: datetime
-    """Creation timestamp"""
-    updatedAt: datetime
-    """Last update timestamp"""
-    publishTime: datetime
-    """Publication timestamp"""
-    isPublished: bool
-    """Is post published to users"""
+class Post(PostCommon):
+    int_id: int
+    """Unknown, probably post.id to int"""
+
     user: BlogUser
     """Blogger user object"""
-
     title: str
     """Post title"""
     data: list[Content]
     """List of contents, attached to post (text included)"""
+    isPublished: bool
+    """Is post published to users"""
+    publishTime: datetime
+    """Publication timestamp"""
     contentCounters: list[Counter]
     """List of counters and sizes, attached to post (text included)"""
     tags: list[Tag]
@@ -87,51 +85,42 @@ class Post(BaseObject):
     """Is post available for you"""
     teaser: list[TeaserContent]
     """Post teaser for users which haven't access to post"""
-
-    count: Count
-    """Count of likes, comments, reactions"""
-    comments: CommentsResponse
-    isCommentsDenied: bool
-    isLiked: bool
-    price: int
-    """Price to open post"""
-    signedQuery: str
-    """Query for media fetching"""
     subscriptionLevel: SubscriptionLevel | None = None
     """Subscription level for non-free posts"""
-
-    poll: Poll | None = None
-    advertiserInfo: str | None = None
-    reacted: React | None = None
-    """Unknown"""
-    isWaitingVideo: bool
-    """Unknown, probably an indicator, which shows if video is processing"""
-    currencyPrices: Currency
-    """Unknown"""
-    isRecord: bool
-    """Is post a stream record"""
+    price: int
+    """Price to open post"""
     donators: DonatorsResponse
     """List of sponsors of the post"""
     donations: float | dict  # TODO dict is appearing sometimes
     """Amount of donations"""
-    int_id: int
-    """Unknown, probably post.id to int"""
+    currencyPrices: Currency
+    """Unknown"""
 
-    isBlocked: bool
-    """New option is Post Blocked by platform or some reason"""
-    isDeleted: bool
-    """TODO"""
+    isCommentsDenied: bool
+    comments: CommentsResponse
+
+    isLiked: bool
+    count: Count
+    """Count of likes, comments, reactions"""
+    reactionsDisabled: bool
+    """Is reactions disabled for post"""
+    reacted: React | None = None
+
+    signedQuery: str
+    """Query for media fetching"""
+    poll: Poll | None = None
+    advertiserInfo: str | None = None
+    """Unknown"""
+    isWaitingVideo: bool
+    """Unknown, probably an indicator, which shows if video is processing"""
+    isRecord: bool
+    """Is post a stream record"""
     showViewsCounter: bool | None = None
     """TODO"""
     isPinned: bool
     """TODO"""
     sortOrder: int
     """TODO"""
-
-    reactionsDisabled: bool
-    """Is reactions disabled for post"""
-    reactionCounters: list[ReactionCounters]
-    """Another reaction counters, different from count.reactions (more reactions types)"""
 
     @property
     def url(self) -> HttpUrl:

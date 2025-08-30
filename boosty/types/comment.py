@@ -1,11 +1,10 @@
-from datetime import datetime
 from typing import Annotated, Literal
 
 from pydantic import UUID4, Field
 
 from boosty.types.base import BaseObject
+from boosty.types.common import PostCommon
 from boosty.types.media_types import Image, Link, Smile, Text
-from boosty.types.reaction_counters import ReactionCounters
 from boosty.types.reactions import Reacted, Reactions
 from boosty.types.reply import RepliesResponse
 from boosty.types.users import Commentator
@@ -16,14 +15,9 @@ CommentContent = Annotated[
     Field(discriminator="type")]
 
 
-class Comment(BaseObject):
-    id: UUID4
+class Comment(PostCommon):
     intId: int
-    createdAt: datetime
-    updatedAt: datetime | None = None
-    isBlocked: bool
     isUpdated: bool
-    isDeleted: bool
     author: Commentator
     reactions: Reactions
     reacted: Reacted | None = None
@@ -31,7 +25,6 @@ class Comment(BaseObject):
     replies: RepliesResponse
     post: dict[Literal["id"], UUID4]
     data: list[CommentContent]
-    reactionCounters: list[ReactionCounters]
 
     @property
     def query(self) -> str:
