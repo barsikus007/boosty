@@ -5,6 +5,7 @@ from pydantic import UUID4, Field
 
 from boosty.types.base import BaseObject
 from boosty.types.media_types import Image, Link, Smile, Text
+from boosty.types.reaction_counters import ReactionCounters
 from boosty.types.reactions import Reacted, Reactions
 from boosty.types.reply import RepliesResponse
 from boosty.types.users import Commentator
@@ -30,6 +31,7 @@ class Comment(BaseObject):
     replies: RepliesResponse
     post: dict[Literal["id"], UUID4]
     data: list[CommentContent]
+    reactionCounters: list[ReactionCounters]
 
     @property
     def query(self) -> str:

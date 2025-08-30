@@ -129,9 +129,9 @@ class Post(BaseObject):
     """TODO"""
 
     reactionsDisabled: bool
-    """TODO"""
+    """Is reactions disabled for post"""
     reactionCounters: list[ReactionCounters]
-    """TODO"""
+    """Another reaction counters, different from count.reactions (more reactions types)"""
 
     @property
     def url(self) -> HttpUrl:
