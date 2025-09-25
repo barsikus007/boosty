@@ -1,9 +1,11 @@
 import json
+import logging
 from pathlib import Path
 
 from boosty.api.auth.resolvers.abc import ABCAuthDataResolver, AuthData
-from boosty.utils.logging import logger
 from boosty.utils.types import StrPath
+
+logger = logging.getLogger(__name__)
 
 
 class FileAuthDataResolver(ABCAuthDataResolver):

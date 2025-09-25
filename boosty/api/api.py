@@ -1,4 +1,5 @@
 # ruff: noqa: PLR0913
+import logging
 from http import HTTPStatus
 from typing import Annotated, Literal
 
@@ -11,7 +12,8 @@ from boosty.types.deferred_access import DeferredAccess, DeferredAccessResponse,
 from boosty.types.post import EditedPost, NewPost, Post, PostsResponse
 from boosty.utils.client import ABCHTTPClient, SingleAiohttpClient
 from boosty.utils.consts import API_URL
-from boosty.utils.logging import logger
+
+logger = logging.getLogger(__name__)
 
 
 class Error(BaseModel):

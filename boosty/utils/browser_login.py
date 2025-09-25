@@ -1,4 +1,5 @@
 import json
+import logging
 from urllib.parse import unquote
 
 from playwright._impl._api_structures import Cookie
@@ -6,8 +7,9 @@ from playwright.async_api import Request, async_playwright
 
 from boosty.api.auth.resolvers.file import FileAuthDataResolver
 from boosty.utils.consts import DEFAULT_USER_AGENT, LOGIN_URL
-from boosty.utils.logging import logger
 from boosty.utils.types import StrPath
+
+logger = logging.getLogger(__name__)
 
 
 async def log_handler(request: Request):  # TODO other types

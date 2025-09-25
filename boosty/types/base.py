@@ -1,9 +1,11 @@
+import logging
 import os
 from typing import Any, get_args
 
 from pydantic import BaseModel, ConfigDict, model_validator
 
-from boosty.utils.logging import logger
+logger = logging.getLogger(__name__)
+
 
 ignore_missing_and_extra_fields = os.getenv("IGNORE_MISSING_AND_EXTRA_FIELDS", "False").lower() in (
     "y",
