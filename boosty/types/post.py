@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Literal
 
 from pydantic import UUID4, HttpUrl
 
@@ -10,7 +10,6 @@ from boosty.types.content import Content
 from boosty.types.counters import Counter
 from boosty.types.donator import DonatorsResponse
 from boosty.types.poll import Poll
-from boosty.types.reaction_counters import ReactionCounters
 from boosty.types.reactions import Reactions
 from boosty.types.teaser import TeaserContent
 from boosty.types.users import BlogUser
@@ -61,6 +60,13 @@ class Count(BaseObject):
     comments: int
     reactions: Reactions
     views: int | None = None
+
+
+class FrameItem(BaseObject):
+    id: UUID4
+    """post.id"""
+    publishTime: datetime
+    title: str
 
 
 class Post(PostCommon):
@@ -120,6 +126,10 @@ class Post(PostCommon):
     isPinned: bool
     """TODO"""
     sortOrder: int
+    """TODO"""
+    showcaseStatus: str
+    """TODO"""
+    frame: dict[Literal["previous", "next"], FrameItem | None] | None = None
     """TODO"""
 
     @property

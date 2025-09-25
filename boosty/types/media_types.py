@@ -129,8 +129,8 @@ class Video(FileBase):
     timeCode: int | None = None  # TODO
     viewsCounter: int | None = None  # TODO
     showViewsCounter: bool | None = None  # TODO
-    uploadStatus: str | None = None  # TODO could be "ok" or other
-    status: str  # TODO could be "ok" or other
+    uploadStatus: Literal["ok", "fail"] | None = None
+    status: Literal["ok", "fail"]
 
 
 class Image(FileBase):
