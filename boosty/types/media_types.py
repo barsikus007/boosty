@@ -130,7 +130,7 @@ class Video(FileBase):
     viewsCounter: int | None = None  # TODO
     showViewsCounter: bool | None = None  # TODO
     uploadStatus: Literal["ok", "fail"] | None = None
-    status: Literal["ok", "fail"]
+    status: Literal["ok", "processing", "fail"]
 
 
 class Image(FileBase):
