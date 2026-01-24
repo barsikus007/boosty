@@ -72,6 +72,8 @@ class FrameItem(BaseObject):
 class Post(PostCommon):
     int_id: int
     """Unknown, probably post.id to int"""
+    intId: int
+    """Unknown, probably post.id to int"""
 
     user: BlogUser
     """Blogger user object"""
@@ -127,7 +129,9 @@ class Post(PostCommon):
     """TODO"""
     sortOrder: int
     """TODO"""
-    showcaseStatus: str
+    showcaseStatus: str | dict | list | None = None
+    """TODO"""
+    isShowcaseVisible: bool | None = None
     """TODO"""
     frame: dict[Literal["previous", "next"], FrameItem | None] | None = None
     """TODO"""

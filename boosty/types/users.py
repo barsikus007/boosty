@@ -8,6 +8,7 @@ from boosty.types.base import BaseObject
 class BaseUser(BaseObject):
     id: int
     name: str
+    isOfficial: bool | None = None  # is Offical representor
     # nick: str
     hasAvatar: bool
     avatarUrl: HttpUrl | Literal[""]
