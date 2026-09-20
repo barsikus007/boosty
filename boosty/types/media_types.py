@@ -23,6 +23,8 @@ player_urls_size_names = Literal[
     "live_playback_hls",   # TODO idk
     "live_playback_dash",  # TODO idk
     "live_ondemand_hls",   # TODO idk
+    "ondemand_hls",        # TODO idk
+    "ondemand_dash",       # TODO idk
     "live_cmaf",           # TODO idk
 ]  # fmt: skip
 
@@ -32,12 +34,20 @@ class PlayerUrl(BaseObject):
     url: HttpUrl | Literal[""]
 
 
-class Text(BaseObject):
-    type: Literal["text"]
+class TextBase(BaseObject):
     content: str
     """JSON string with list of text with entities or '' if modificator is 'BLOCK_END'"""
     modificator: str
     """One of ['', 'BLOCK_END']"""
+
+
+class Text(TextBase):
+    type: Literal["text"]
+
+
+class Header(TextBase):
+    type: Literal["header"]
+    """Heading block, styled as one of 'header-one'..'header-six' inside content"""
 
 
 class Smile(BaseObject):
@@ -65,6 +75,9 @@ class LinkToVideo(BaseObject):
 class FileBase(BaseObject):
     id: UUID4
     url: HttpUrl | Literal[""]
+
+    isInvalid: bool | None = None
+    """Is file invalid"""
 
 
 class File(FileBase):
@@ -140,6 +153,9 @@ class Image(FileBase):
     height: int
     size: int
 
+    title: str | None = None
+    """Original file name, present for images uploaded as post content"""
+
 
 class TeaserAutoBackgroundImage(FileBase):
     type: Literal["image"]
@@ -147,6 +163,9 @@ class TeaserAutoBackgroundImage(FileBase):
     width: int | None = None
     height: int | None = None
     size: int | None = None
+
+    title: str | None = None
+    """Original file name, present for images uploaded as post content"""
 
 
 class TextFormatEnum(IntEnum):

@@ -21,6 +21,7 @@ reaction_types = Literal[
     "folded-hands",
     "funny",
     "heart",
+    "laugh",
     "laught",
     "lightning",
     "like",

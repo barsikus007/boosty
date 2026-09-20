@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING
 from pydantic import BaseModel, HttpUrl
 
 from boosty.types.base import ignore_missing_and_extra_fields
-from boosty.types.media_types import Link, Text, TextFormatEnum
+from boosty.types.media_types import Header, Link, Text, TextFormatEnum
 
 if TYPE_CHECKING:
     from boosty.types import Content, Post
@@ -57,8 +57,8 @@ def render_text(
     for content in post_data:
         while fix_long_newlines and text.endswith("\n\n\n\n"):
             text = text[:-1]
-        if content.type in ["text", "link"]:
-            content: Text | Link
+        if content.type in ["text", "link", "header"]:
+            content: Text | Link | Header
             if isinstance(content, Text) and not ignore_missing_and_extra_fields:
                 if content.modificator not in ["", "BLOCK_END"]:
                     raise ValueError(
@@ -88,7 +88,8 @@ def render_text(
                     type="text_link", url=str(content.url),
                     offset=new_offset, length=len(add_surrogates(raw_text))))
             if raw_entities:
-                if not ignore_missing_and_extra_fields and raw_unstyled != "unstyled":
+                is_header_style = isinstance(content, Header) and raw_unstyled.startswith("header-")
+                if not ignore_missing_and_extra_fields and raw_unstyled != "unstyled" and not is_header_style:
                     raise ValueError(
                         "TEXT PARSER ERROR\n"
                         "raw_unstyled != 'unstyled'\n"

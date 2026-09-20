@@ -8,6 +8,7 @@ from boosty.types.comment import CommentsResponse
 from boosty.types.common import PostCommon
 from boosty.types.content import Content
 from boosty.types.counters import Counter
+from boosty.types.currency import Currency
 from boosty.types.donator import DonatorsResponse
 from boosty.types.poll import Poll
 from boosty.types.reactions import Reactions
@@ -19,15 +20,16 @@ if TYPE_CHECKING:
     from boosty.api.api import API
 
 
-class Currency(BaseObject):
-    USD: int | float
-    RUB: int | float
-
-
 class Tag(BaseObject):
     id: int
     title: str
     """Tag name"""
+
+
+class SubscriptionLevelFlags(BaseObject):
+    isHidden: bool | None = None
+    isArchived: bool | None = None
+    isLimited: bool | None = None
 
 
 class SubscriptionLevel(BaseObject):
@@ -49,6 +51,9 @@ class SubscriptionLevel(BaseObject):
     promos: dict | list  # TODO
     isHidden: bool
     isLimited: bool
+
+    flags: SubscriptionLevelFlags | None = None
+    """Duplicates the isHidden/isArchived/isLimited fields above"""
 
 
 class React(BaseObject):
@@ -72,6 +77,8 @@ class FrameItem(BaseObject):
 class Post(PostCommon):
     int_id: int
     """Unknown, probably post.id to int"""
+    intId: int
+    """Unknown, probably post.id to int"""
 
     user: BlogUser
     """Blogger user object"""
@@ -81,6 +88,10 @@ class Post(PostCommon):
     """List of contents, attached to post (text included)"""
     isPublished: bool
     """Is post published to users"""
+    isMarketing: bool
+    """Is post Marketing or something"""
+    promo: bool | None = None
+    """Is post promoted"""
     publishTime: datetime
     """Publication timestamp"""
     contentCounters: list[Counter]
@@ -89,6 +100,8 @@ class Post(PostCommon):
 
     hasAccess: bool
     """Is post available for you"""
+    hasAdultContent: bool
+    """Is post available for users with adult content"""
     teaser: list[TeaserContent]
     """Post teaser for users which haven't access to post"""
     subscriptionLevel: SubscriptionLevel | None = None
@@ -100,6 +113,8 @@ class Post(PostCommon):
     donations: float | dict  # TODO dict is appearing sometimes
     """Amount of donations"""
     currencyPrices: Currency
+    """Unknown"""
+    currencyDonations: Currency
     """Unknown"""
 
     isCommentsDenied: bool
@@ -127,9 +142,13 @@ class Post(PostCommon):
     """TODO"""
     sortOrder: int
     """TODO"""
-    showcaseStatus: str
+    showcaseStatus: str | dict | list | None = None
+    """TODO"""
+    isShowcaseVisible: bool | None = None
     """TODO"""
     frame: dict[Literal["previous", "next"], FrameItem | None] | None = None
+    """TODO"""
+    bundleIds: list[str] | None = None
     """TODO"""
 
     @property
