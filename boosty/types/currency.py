@@ -5,5 +5,6 @@ currency_names = Literal["RUB", "USD", "EUR"]
 
 
 class Currency(BaseObject):
-    USD: int | float | dict
-    RUB: int | float | dict
+    EUR: int | float
+    USD: int | float
+    RUB: int | float
