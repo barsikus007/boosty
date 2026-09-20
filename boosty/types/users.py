@@ -2,8 +2,8 @@ from typing import Annotated, Literal, TypeAlias
 
 from pydantic import EmailStr, Field, HttpUrl
 
-from boosty.types.post import Currency
 from boosty.types.base import BaseObject
+from boosty.types.currency import Currency
 
 UrlOrEmpty: TypeAlias = HttpUrl | Literal[""]
 

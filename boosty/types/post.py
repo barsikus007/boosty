@@ -8,6 +8,7 @@ from boosty.types.comment import CommentsResponse
 from boosty.types.common import PostCommon
 from boosty.types.content import Content
 from boosty.types.counters import Counter
+from boosty.types.currency import Currency
 from boosty.types.donator import DonatorsResponse
 from boosty.types.poll import Poll
 from boosty.types.reactions import Reactions
@@ -17,11 +18,6 @@ from boosty.utils.post import Entity, render_text
 
 if TYPE_CHECKING:
     from boosty.api.api import API
-
-
-class Currency(BaseObject):
-    USD: int | float
-    RUB: int | float
 
 
 class Tag(BaseObject):
