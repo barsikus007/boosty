@@ -19,6 +19,7 @@ classifiers = [
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
   "Programming Language :: Python :: Implementation :: CPython",
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
@@ -53,7 +54,7 @@ features = [
 ]
 
 [[tool.hatch.envs.hatch-test.matrix]]
-python = ["310", "311", "312", "313"]
+python = ["310", "311", "312", "313", "314"]
 
 [tool.pytest.ini_options]
 log_cli = true
