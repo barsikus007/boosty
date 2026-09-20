@@ -81,7 +81,7 @@ class Post(PostCommon):
     """Is post published to users"""
     isMarketing: bool
     """Is post Marketing or something"""
-    promo: bool
+    promo: bool | None = None
     """Is post promoted"""
     publishTime: datetime
     """Publication timestamp"""
