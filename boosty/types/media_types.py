@@ -34,12 +34,20 @@ class PlayerUrl(BaseObject):
     url: HttpUrl | Literal[""]
 
 
-class Text(BaseObject):
-    type: Literal["text"]
+class TextBase(BaseObject):
     content: str
     """JSON string with list of text with entities or '' if modificator is 'BLOCK_END'"""
     modificator: str
     """One of ['', 'BLOCK_END']"""
+
+
+class Text(TextBase):
+    type: Literal["text"]
+
+
+class Header(TextBase):
+    type: Literal["header"]
+    """Heading block, styled as one of 'header-one'..'header-six' inside content"""
 
 
 class Smile(BaseObject):
