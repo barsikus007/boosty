@@ -3,7 +3,7 @@ from typing import Annotated, Literal, TypeAlias
 from pydantic import EmailStr, Field, HttpUrl
 
 from boosty.types.base import BaseObject
-from boosty.types.currency import Currency
+from boosty.types.currency import currency_names
 
 UrlOrEmpty: TypeAlias = HttpUrl | Literal[""]
 
@@ -17,7 +17,7 @@ class BaseUser(BaseObject):
     avatarUrl: UrlOrEmpty
     isVerifiedStreamer: bool | None = None
     """None for BlogUser"""
-    currency: Currency
+    currency: currency_names
     """User currency"""
 
 

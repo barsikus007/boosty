@@ -81,6 +81,8 @@ class Post(PostCommon):
     """Is post published to users"""
     isMarketing: bool
     """Is post Marketing or something"""
+    promo: bool
+    """Is post promoted"""
     publishTime: datetime
     """Publication timestamp"""
     contentCounters: list[Counter]
@@ -136,6 +138,8 @@ class Post(PostCommon):
     isShowcaseVisible: bool | None = None
     """TODO"""
     frame: dict[Literal["previous", "next"], FrameItem | None] | None = None
+    """TODO"""
+    bundleIds: list[str] | None = None
     """TODO"""
 
     @property
