@@ -83,6 +83,8 @@ class Post(PostCommon):
     """List of contents, attached to post (text included)"""
     isPublished: bool
     """Is post published to users"""
+    isMarketing: bool
+    """Is post Marketing or something"""
     publishTime: datetime
     """Publication timestamp"""
     contentCounters: list[Counter]
@@ -91,6 +93,8 @@ class Post(PostCommon):
 
     hasAccess: bool
     """Is post available for you"""
+    hasAdultContent: bool
+    """Is post available for users with adult content"""
     teaser: list[TeaserContent]
     """Post teaser for users which haven't access to post"""
     subscriptionLevel: SubscriptionLevel | None = None
@@ -102,6 +106,8 @@ class Post(PostCommon):
     donations: float | dict  # TODO dict is appearing sometimes
     """Amount of donations"""
     currencyPrices: Currency
+    """Unknown"""
+    currencyDonations: Currency
     """Unknown"""
 
     isCommentsDenied: bool

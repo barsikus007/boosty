@@ -66,6 +66,9 @@ class FileBase(BaseObject):
     id: UUID4
     url: HttpUrl | Literal[""]
 
+    isInvalid: bool | None = None
+    """Is file invalid"""
+
 
 class File(FileBase):
     type: Literal["file"]
