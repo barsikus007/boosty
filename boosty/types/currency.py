@@ -5,6 +5,8 @@ currency_names = Literal["RUB", "USD", "EUR"]
 
 
 class Currency(BaseObject):
-    EUR: int | float
-    USD: int | float
     RUB: int | float
+    USD: int | float | None = None
+    """Absent in responses for blogs without foreign currency conversion"""
+    EUR: int | float | None = None
+    """Absent in responses for blogs without foreign currency conversion"""

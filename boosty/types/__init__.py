@@ -10,10 +10,11 @@ from boosty.types.post import (
     PostsResponseExtra,
     React,
     SubscriptionLevel,
+    SubscriptionLevelFlags,
     Tag,
 )
 
 __all__ = (
-    "BaseObject", "Currency", "Tag", "SubscriptionLevel", "React", "Count",
+    "BaseObject", "Currency", "Tag", "SubscriptionLevel", "SubscriptionLevelFlags", "React", "Count",
     "Post", "PostsResponseExtra", "PostsResponse", "EditedPost", "NewPost",
     "Content")

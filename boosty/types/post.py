@@ -26,6 +26,12 @@ class Tag(BaseObject):
     """Tag name"""
 
 
+class SubscriptionLevelFlags(BaseObject):
+    isHidden: bool | None = None
+    isArchived: bool | None = None
+    isLimited: bool | None = None
+
+
 class SubscriptionLevel(BaseObject):
     id: int
     createdAt: datetime
@@ -45,6 +51,9 @@ class SubscriptionLevel(BaseObject):
     promos: dict | list  # TODO
     isHidden: bool
     isLimited: bool
+
+    flags: SubscriptionLevelFlags | None = None
+    """Duplicates the isHidden/isArchived/isLimited fields above"""
 
 
 class React(BaseObject):
