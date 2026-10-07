@@ -102,6 +102,10 @@ class Post(PostCommon):
     """Is post available for you"""
     hasAdultContent: bool
     """Is post available for users with adult content"""
+    hasAIContent: bool
+    """Is post AI generated content"""
+    forbiddenChangeHasAIContent:bool
+    """Can change info about post has AI generated content"""
     teaser: list[TeaserContent]
     """Post teaser for users which haven't access to post"""
     subscriptionLevel: SubscriptionLevel | None = None
