@@ -16,12 +16,12 @@ async def log_handler(request: Request):  # TODO other types
     if not request.url.startswith("https://api.boosty.to/oauth/phone/token"):
         return
 
-    logger.info(f"oauth/phone/token {request.post_data_json=}")
+    logger.info("oauth/phone/token request sent")
     resp = await request.response()
     if not resp:
         logger.error("Empty response")
         return
-    logger.info(f"oauth/phone/token {await resp.json()=}")
+    logger.info("oauth/phone/token response received (status %s)", resp.status)
 
 
 async def retrieve_auth_cookies(*, user_agent: str) -> list[Cookie]:
@@ -64,6 +64,6 @@ async def interactive_login(
     auth_resolver.auth_data.from_cookies_data(json.loads(auth_cookies["auth"]))
     auth_resolver.auth_data.device_id = auth_cookies.get("_clientId")
     auth_resolver.auth_data.user_agent = user_agent
-    logger.info(f"browser_login.{auth_resolver.auth_data=}")
+    logger.info("browser_login: auth data received, saving to %s", auth_resolver.auth_file)
     auth_resolver.save_auth_data()
     return auth_resolver
